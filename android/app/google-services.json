@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "386784574817",
+    "firebase_url": "https://breve-realtimedb.firebaseio.com",
+    "project_id": "breve-realtimedb",
+    "storage_bucket": "breve-realtimedb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386784574817:android:5586f6293b302674c81920",
+        "android_client_info": {
+          "package_name": "com.breve.breve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "386784574817-bfqef2pukobqiv7t5eudp6uphlhrb2g9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrEZgr0n3nN7t937qpFIokQioZtsFMBCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "386784574817-bfqef2pukobqiv7t5eudp6uphlhrb2g9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "386784574817-k3a3irurc2seos6fcvn3paog2ivffqi4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.breve.breve"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

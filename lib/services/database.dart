@@ -3,8 +3,8 @@ import 'package:breve/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Database {
-  Query isValid(Query q) => q.where("_pushing", isEqualTo: false);
-
+  Query isNotError(Query q) => q.where("_isError", isEqualTo: false);
+  Query isValid(Query q) => isNotError(q).where("_isPushing", isEqualTo: false);
   static Database instance;
 
   static Firestore _db = Firestore.instance;
@@ -23,10 +23,14 @@ class Database {
    void setFCMToken(String token) {
     userDoc.setData({"fcmToken": token}, merge: true);
   }
+
+  static Future<DocumentSnapshot> getUserDoc(String uid) => _db.document("users/$uid").get();
+  static Future<DocumentSnapshot> getRestaurantDoc(String rid) =>  _db.document("restaurants/$rid").get();
 }
 
 class CustomerDatabase extends Database {
   static CustomerDatabase instance;
+  
 
   Query ordersQuery;
   Query transactionsQuery;
@@ -41,9 +45,11 @@ class CustomerDatabase extends Database {
       Restaurant.fromDocument(await restaurantsRef.document(id).get());
 
   CustomerDatabase(String uid) : super(uid) {
-    menusRef = _db.collection("menus");
-    ordersQuery = ordersRef;
-    transactionsQuery = transactionsRef;
+
+    Query isOwn(Query q) => q.where("customer.id", isEqualTo: uid);
+
+    ordersQuery = isOwn(isNotError(ordersRef));
+    transactionsQuery = isOwn(isNotError(transactionsRef));
     sourcesRef = userDoc.collection("sources");
   }
 
@@ -60,13 +66,15 @@ class RestaurantDatabase extends Database {
   Query completeOrdersQuery;
 
   RestaurantDatabase(String uid, String rid) : super(uid) {
+    Query isOwn(Query q) => q.where("restaurant.id", isEqualTo: rid);
+
     restaurantDoc = restaurantsRef.document(rid);
-    upcomingOrdersQuery = ordersRef;
-    completeOrdersQuery = ordersRef;
+    
+    upcomingOrdersQuery = isOwn(isValid(ordersRef)).where("fulfillment.status", isEqualTo: "paid");
+    completeOrdersQuery = isOwn(isValid(ordersRef)).where("fulfillment.status", whereIn: ["ready", "cancelled"]);
   }
 
-  static void init(String uid) async {
-    String rid = (await Database(uid).userDoc.get())["restaurantId"];
+  static void init(String uid, rid) async {
     RestaurantDatabase.instance = RestaurantDatabase(uid, rid);
   }
 }

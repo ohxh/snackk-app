@@ -1,4 +1,5 @@
 import 'package:breve/models/deserializable.dart';
+import 'package:breve/services/authentication.dart';
 
 class WalletReload extends Pushable {
 
@@ -24,6 +25,7 @@ class WalletReload extends Pushable {
   Map<String,dynamic> get json => {
     "source": _source,
     "amount": _amount,
+    "userId": (Auth.user as Customer).uid,
     "destination": "wallet",
     "type": "reload"
   };

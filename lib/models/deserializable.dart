@@ -11,7 +11,7 @@ class Deserialized {
   Deserialized.fromDocument(DocumentSnapshot doc) {
     ref = doc?.reference;
     id = doc?.documentID;
-    isPushing = doc != null ? doc["_isPushing"] ?? false : false;
+    isPushing = doc != null ? doc["_isPushing"] == true ?? false : false;
   }
 }
 
@@ -23,7 +23,7 @@ abstract class Pushable with ChangeNotifier {
     isPushing = true;
     notifyListeners();
 
-    var toPush={"_pushing": true, "_push" : json};
+    var toPush={"_isPushing" : true, "_push" : json};
 
     var ref = await collection.add(toPush);
 

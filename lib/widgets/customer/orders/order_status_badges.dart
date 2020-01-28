@@ -1,4 +1,5 @@
 import 'package:breve/models/order/customer_order.dart';
+import 'package:breve/services/database.dart';
 import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/general/badge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,10 +9,7 @@ class OrderStatusBadges extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-              stream: Firestore.instance
-                  .collection('orders')
-                  .orderBy("fulfillment.timeDue")
-                  .limit(5)
+              stream: CustomerDatabase.instance.ordersQuery
                   .snapshots()
                   .map((q) => q.documents
                       .map((d) => CustomerOrder.fromDocument(d))

@@ -1,18 +1,20 @@
+import 'package:breve/services/database.dart';
 import 'package:breve/widgets/general/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:breve/services/authentication.dart';
+import 'package:flutter/services.dart';
 
-class LoginSignupPage extends StatefulWidget {
+class SetProfilePage extends StatefulWidget {
 
   @override
-  State<StatefulWidget> createState() => new _LoginSignupPageState();
+  State<StatefulWidget> createState() => new _SetProfilePageState();
 }
 
-class _LoginSignupPageState extends State<LoginSignupPage> {
+class _SetProfilePageState extends State<SetProfilePage> {
   final _formKey = new GlobalKey<FormState>();
 
-  String _email;
-  String _password;
+  String _displayName;
+  String _phone;
   String _errorMessage = "";
 
   bool _isLoginForm = true;
@@ -35,16 +37,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       _errorMessage = "";
     });
     try {
-    _isLoginForm ? Auth.signIn(_email, _password)
-    : Auth.signUp(_email, _password);
-
-      } catch (e) {
+      await Auth.updateProfile(_displayName, _phone);
+    } catch (e) {
         print('Error: $e');
         setState(() {
-          _errorMessage = e.message;
+          _errorMessage = e.toString();
           _formKey.currentState.reset();
-        });
-      
+        });     
     }
   }
 
@@ -122,7 +121,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       tag: 'hero',
       child: Padding(
         padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
-        child: Center(child: Text("brevé", style: TextStyle(fontSize: 48, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),)
+        child: Center(child: Text("set profile", style: TextStyle(fontSize: 48, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),)
       ),
     );
   }
@@ -133,13 +132,13 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       child: new TextFormField(
         
         maxLines: 1,
-        keyboardType: TextInputType.emailAddress,
+        keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Email',
+            hintText: 'Name',
             ),
-        validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
-        onChanged: (value) => _email = value.trim(),
+        validator: (value) => value.isEmpty ? 'Name can\'t be empty' : null,
+        onChanged: (value) => _displayName = value.trim(),
       ),
     );
   }
@@ -149,13 +148,14 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextFormField(
         maxLines: 1,
-        obscureText: true,
+        keyboardType: TextInputType.phone,
+        
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Password',
+            hintText: 'Phone',
             ),
-        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
-        onChanged: (value) => _password = value.trim(),
+        validator: (value) => value.isEmpty ? 'Phone can\'t be empty' : null,
+        onChanged: (value) => _phone = value.trim(),
       ),
     );
   }

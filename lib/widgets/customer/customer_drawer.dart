@@ -6,7 +6,7 @@ import 'package:breve/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
 class CustomerDrawer extends StatelessWidget {
-  var user = Auth.status.value as LoggedIn;
+  var user = Auth.status.value as HasProfile;
 
   @override
   Widget build(BuildContext context) {

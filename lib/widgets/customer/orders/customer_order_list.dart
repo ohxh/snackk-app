@@ -1,4 +1,5 @@
 import 'package:breve/models/order/customer_order.dart';
+import 'package:breve/services/database.dart';
 import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/customer/orders/customer_order_card.dart';
 import 'package:breve/widgets/general/streamed_list_builder.dart';
@@ -9,7 +10,7 @@ class CustomerOrderList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QueryListBuilder(
-        query: Firestore.instance.collection("orders")
+        query: CustomerDatabase.instance.ordersQuery
             /*.where("customer.id", isEqualTo: User.instance.userId)
             .orderBy("fulfillment.timeDue")
             .limit(5)*/,

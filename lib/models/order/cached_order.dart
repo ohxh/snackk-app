@@ -9,7 +9,7 @@ class CachedOrder extends Deserialized with Order {
   covariant List<CachedProduct> cart = List();
 
   String id, restaurantId;
-  int tip, cartPrice, tax, totalPrice;
+  int tip, subtotal, tax, totalPrice;
 
   DateTime timeSubmitted, timeDue;
 
@@ -30,12 +30,13 @@ class CachedOrder extends Deserialized with Order {
   }
 
   CachedOrder.fromDocument(DocumentSnapshot doc) : super.fromDocument(doc) {
+    print(doc.data);
     id = doc.documentID;
     restaurantId = doc["restaurant"]["id"];
     doc["cart"]?.forEach((o) => cart.add(CachedProduct.fromJSON(o)));
     var payment = doc["payment"];
     tip = payment["tip"];
-    cartPrice = payment["cartPrice"];
+    subtotal = payment["subtotal"];
     tax = payment["tax"];
     totalPrice = payment["totalPrice"];
 

@@ -28,7 +28,8 @@ class SpecificProduct extends DisplayableAsProduct with ChangeNotifier {
     "name":name,
     "size":size,
     "price":price,
-    "attributes":attributeJson
+    "attributes":attributeJson,
+    "quantity":quantity,
   };
 
   get isValid => attributes.fold(true, (acc, g) =>

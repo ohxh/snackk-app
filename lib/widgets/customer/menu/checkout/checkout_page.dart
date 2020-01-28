@@ -34,7 +34,7 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  var user = Auth.status.value as LoggedIn;
+  var user = Auth.status.value as HasProfile;
   bool payWithWallet = true;
   int walletBalance = 0;
   DateTime selectedTime;
@@ -100,10 +100,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return widget.order.cart.length > 0
         ? () async {
             var got = await widget.order.purchaseWithWallet();
-              if (got == null)
-                showErrorDialog("Order failed", "Please try again");
-              else
-                Navigator.pop(context);
+            if (got == null)
+              showErrorDialog("Order failed", "Please try again");
+            else{
+              print(got);
+              Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                SuccessPage(got)),
+                                        (Route<dynamic> r) =>
+                                            r.isFirst == true);
+            }
           }
         : null;
   }
@@ -134,11 +142,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             isLoading: widget.order.isPushing,
                             onPressed: (_) =>
                                 widget.order.purchaseWithCard().then((o) {
-                                  if (o == null)
-                                    showErrorDialog(
-                                        "Order failed", "Please try again");
-                                  else
-                                    Navigator.pop(context);
+                                  if (o != null) {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                SuccessPage(o)),
+                                        (Route<dynamic> r) =>
+                                            r.isFirst == true);
+                                  } else {
+                                    showErrorDialog("Charge failed", "oops");
+                                  }
                                 })))),
               ],
             )));

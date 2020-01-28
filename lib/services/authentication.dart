@@ -1,51 +1,95 @@
 import 'dart:async';
 import 'package:breve/models/restaurant.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'database.dart';
 import 'notifications.dart';
 
-class AuthStatus {}
+class AuthStatus {
+  static Future<AuthStatus> fromFirebaseUser(FirebaseUser fUser) async {
+    if(fUser == null) return NotLoggedIn();
+
+    print("called" + fUser.uid);
+    
+    var doc = await Database.getUserDoc(fUser.uid);
+    print(doc.data);
+    while(!doc.exists || doc.data["displayName"] == null || doc.data["phone"] == null) {
+      return NeedsProfile(fUser.uid);
+    }
+    
+    while(doc.data["type"] == null) {
+      //If the user hasn't pushed profile data or the server hasn't done it's write, keep waiting
+      doc = await doc.reference.snapshots().first;
+    }
+
+    if(doc["type"] == "customer") return Customer(doc);
+    if(doc["type"] == "manager") return Manager(doc, await Database.getRestaurantDoc(doc["restaurant"]));
+    if(doc["type"] == "owner") return Owner(doc);
+    if(doc["type"] == "admin") return Admin(doc);
+    if(doc["type"] == "waiting") return WaitingForApproval(doc);
+  }
+}
 class NotDetermined extends AuthStatus {}
 class NotLoggedIn extends AuthStatus {}
+
 abstract class LoggedIn extends AuthStatus {
-  String uid, name, email;
-  Future<void> init();
+  String uid;
+  LoggedIn(this.uid);
+}
+class NeedsProfile extends LoggedIn {
+  NeedsProfile(String uid) : super(uid);
+}
+abstract class HasProfile extends LoggedIn {
+  String name, email;
 
-  static Future<LoggedIn> fromFirebaseUser(FirebaseUser user) async {
-    LoggedIn result;
-    result = true ? LoggedInCustomer() : LoggedInRestaurant();
-
-    result.uid = user.uid;
-    result.name = user.displayName;
-    result.email = user.email;
-
-    Notifications.init();
-    await result.init();
-    return result;
-  }  
+  HasProfile(DocumentSnapshot doc) : super(doc.documentID) {
+    name = doc["displayName"];
+    email = doc["email"];
+  }
 }
 
-class LoggedInCustomer extends LoggedIn {
-  Future<void> init() async {
+class Customer extends HasProfile {
+  String phone;
+
+  Customer(DocumentSnapshot doc) : super(doc) {
+    phone = doc["phone"];
     CustomerDatabase.init(uid);
   }
 }
 
-class LoggedInRestaurant extends LoggedIn {
+class Manager extends HasProfile {
   String rid;
   Restaurant restaurant;
+
+
   
-  Future<void> init() async {
+  Manager(DocumentSnapshot userDoc, DocumentSnapshot restaurantDoc) : super(userDoc) {
+    print(restaurantDoc.documentID);
+    restaurant = Restaurant.fromDocument(restaurantDoc);
+    rid = restaurantDoc.documentID;
+    RestaurantDatabase.init(uid, rid);
     
-    await RestaurantDatabase.init(uid);
   }
 }
+
+class Owner extends HasProfile {
+  Owner(DocumentSnapshot doc) : super(doc);
+}
+
+class Admin extends HasProfile {
+  Admin(DocumentSnapshot doc) : super(doc);
+}
+
+class WaitingForApproval extends HasProfile {
+  WaitingForApproval(DocumentSnapshot doc) : super(doc);
+}
+
 
 class Auth {
   static ValueNotifier<AuthStatus> status = ValueNotifier(NotDetermined());
 
-  static get user => status.value;
+  static AuthStatus get user => status.value;
 
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
@@ -54,32 +98,41 @@ class Auth {
     try {
         AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
-        FirebaseUser fUser = result.user;
-        status.value = await LoggedIn.fromFirebaseUser(fUser);
+        status.value = await AuthStatus.fromFirebaseUser(result.user);
     } catch(e) {
       status.value = NotLoggedIn();
     }
 
   }
 
-  static Future<void> signUp(String email, String password, String displayName, String phoneNumber) async {
+  static Future<void> signUp(String email, String password) async {
     status.value = NotDetermined();
     try {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser fUser = result.user;
-    //set display name, email
-       status.value = await LoggedIn.fromFirebaseUser(fUser);
+       status.value = await AuthStatus.fromFirebaseUser(fUser);
     } catch(e) {
       print(e);
       status.value = NotLoggedIn();
     }
   }
 
+  static Future<void> updateProfile(String displayName, String phone) async {
+    if(!(user is LoggedIn)) throw ErrorDescription("USer isn't loggedin");
+    try {
+        await Firestore.instance.document("users/${(user as LoggedIn).uid}").setData({"displayName":displayName,"phone":phone}, merge: true);
+        print("Set!");
+        await init();
+        print("initt");
+    } catch(e) {
+      print(e.toString());
+    }
+  }
+
   static Future<void> init() async {
     FirebaseUser fUser = await _firebaseAuth.currentUser();
-    if(fUser == null) status.value = NotLoggedIn();
-    else status.value = await LoggedIn.fromFirebaseUser(fUser);
+    status.value = await AuthStatus.fromFirebaseUser(fUser);
   }
 
   static Future<void> signOut() async {

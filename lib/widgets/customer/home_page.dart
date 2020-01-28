@@ -9,16 +9,16 @@ import 'package:flutter/material.dart';
 import 'orders/customer_order_list.dart';
 import 'orders/order_status_badges.dart';
 
-class HomePage extends StatefulWidget {
-  HomePage({
+class CustomerHomePage extends StatefulWidget {
+  CustomerHomePage({
     Key key,
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => new _HomePageState();
+  State<StatefulWidget> createState() => new _CustomerHomePageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _CustomerHomePageState extends State<CustomerHomePage>
     with TickerProviderStateMixin, ChangeNotifier {
 
   TabController _tabController;

@@ -31,7 +31,7 @@ class _CardsPageState extends State<CardsPage> {
   }
 
   Widget showCreditCardPreviewList() {
-    var user = Auth.status.value as LoggedIn;
+    var user = Auth.status.value as HasProfile;
     return StreamBuilder(
         stream: Firestore.instance.collection('users/${user.uid}/sources')
             .snapshots()

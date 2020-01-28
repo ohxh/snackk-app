@@ -31,7 +31,7 @@ class CreditCardModalState extends State<CreditCardModal> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  var user = Auth.status.value as LoggedIn;
+  var user = Auth.status.value as HasProfile;
 
   CreditCard getFormData() => CreditCard(
         number: cardNumber,
@@ -44,7 +44,8 @@ class CreditCardModalState extends State<CreditCardModal> {
 
   void tryPushCard(CreditCard card) async {
     StripePayment.createTokenWithCard(card).then((token) {
-      CustomerDatabase.instance.sourcesRef.add({"tokenId": token.tokenId, "_isPushing":true});
+      CustomerDatabase.instance.sourcesRef.add({"_push":{"tokenId": token.tokenId}, "_isPushing":true});
+      print("added");
           Navigator.pop(context);
     }).catchError(setError);
   }

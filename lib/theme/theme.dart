@@ -103,9 +103,9 @@ class TextStyles {
   static const error = TextStyle(
       color: BreveColors.red, fontSize: 18, fontWeight: FontWeight.w600);
   static const selectedTab =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: BreveColors.black);
   static const unselectedTab =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: BreveColors.black);
   static const paragraph = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "176057359889",
+    "firebase_url": "https://breve-dev-3e837.firebaseio.com",
+    "project_id": "breve-dev-3e837",
+    "storage_bucket": "breve-dev-3e837.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176057359889:android:00ff99f8e6940d5f719bb0",
+        "android_client_info": {
+          "package_name": "com.getbreve.breve"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176057359889-4lsf2hoehg88m94tmdgffb8ipqdhgndb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByHf76xO6VbVh3_jKJyxSENWOR3MLNxC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176057359889-4lsf2hoehg88m94tmdgffb8ipqdhgndb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "176057359889-aqblq81eku6mgfjuquigoplafkv21gk0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.getbreve.breve"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

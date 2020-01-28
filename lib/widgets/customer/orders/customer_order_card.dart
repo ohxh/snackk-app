@@ -74,10 +74,11 @@ class _CustomerOrderCardState extends State<CustomerOrderCard> with TickerProvid
                                     SizedBox(height: 6),
                                     Text(
                                         /*widget.order.cafe.name*/ (widget
-                                                .order.cart.length
+                                                .order.quantity
                                                 .toString() +
                                             " item" +
-                                            (widget.order.cart.length >
+                                            (widget
+                                                .order.quantity >
                                                     1
                                                 ? "s"
                                                 : "") +

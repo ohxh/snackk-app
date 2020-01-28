@@ -61,11 +61,13 @@ class EditableOrder extends Pushable with Order {
 
   Map<String, dynamic> get json => {
           'restaurantId': this.restaurant.id,
-          'customerId': (Auth.user as LoggedInCustomer).uid,
+          'customerId': (Auth.user as Customer).uid,
           'paymentMethod': this.paymentMethod,
           'cart': this.cartJson,
           'tip': this.tip,
           'tax': this.tax,
+          'isCarryOut': this.carryOut,
+          'timeDue': Timestamp.now(),
           'subtotal': this.subtotal,
           'totalPrice': this.totalPrice,
       };
@@ -100,7 +102,7 @@ class EditableOrder extends Pushable with Order {
   Future<CustomerOrder> purchase() async {
     print(json);
     var doc = await push(CustomerDatabase.instance.ordersRef);
-    if(!doc.exists) return null;
+    if(doc["_isError"] == true) return null;
     return CustomerOrder.fromDocument(doc);
   }
 }

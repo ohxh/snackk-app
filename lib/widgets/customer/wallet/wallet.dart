@@ -28,7 +28,7 @@ class _WalletState extends State<Wallet> {
      
       bool succeeded = (await r.push(Firestore.instance.collection("transactions"))).exists;
 
-    if(!succeeded) Dialogs.showErrorDialog(context, "title", "message");
+    if(!succeeded) Dialogs.showErrorDialog(context, "Wallet reload failed", "Please try again.");
     else r = new WalletReload();
   }
 

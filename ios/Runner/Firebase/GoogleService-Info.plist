@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>176057359889-aqblq81eku6mgfjuquigoplafkv21gk0.apps.googleusercontent.com</string>
+	<string>530340429489-isn4al6li1rc0do5k9t6afvpih8nnhul.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.176057359889-aqblq81eku6mgfjuquigoplafkv21gk0</string>
+	<string>com.googleusercontent.apps.530340429489-isn4al6li1rc0do5k9t6afvpih8nnhul</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDgNgHWHTu4E6iBugP1JctpLDYq7XvyxWg</string>
+	<string>AIzaSyB-_wAcvkhwmyxhN32xORStklekVgQKgpM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>176057359889</string>
+	<string>530340429489</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.getbreve.breve</string>
+	<string>com.breve.getbreve</string>
 	<key>PROJECT_ID</key>
-	<string>breve-dev-3e837</string>
+	<string>breve-production-6ba7a</string>
 	<key>STORAGE_BUCKET</key>
-	<string>breve-dev-3e837.appspot.com</string>
+	<string>breve-production-6ba7a.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:176057359889:ios:d94523cc089f80eb719bb0</string>
+	<string>1:530340429489:ios:0ac0051dc4aeb89178ec90</string>
 	<key>DATABASE_URL</key>
-	<string>https://breve-dev-3e837.firebaseio.com</string>
+	<string>https://breve-production-6ba7a.firebaseio.com</string>
 </dict>
 </plist>

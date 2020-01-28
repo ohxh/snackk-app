@@ -49,9 +49,9 @@ class BreveScaffold extends StatefulWidget {
       this.logo,
       this.scrollable = true, 
       this.centerTitle=false, this.color}) {
-        content.keys.forEach((t) => t = t is Widget ? t : Text(t));
-        this.body = TabBarView(children: content.keys);
-        this.tabs = content.values;
+        List<Widget> parsed = content.keys.map((t) => t = t is Widget ? t : Text(t)).toList();
+        this.body = TabBarView(children: parsed.toList());
+        this.tabs = content.values.toList();
       }
 
 
@@ -127,10 +127,12 @@ class _BreveScaffoldState extends State<BreveScaffold> {
               Container(
                 padding: EdgeInsets.only(left: 8),
       alignment: Alignment.topLeft,
+      color: Colors.white,
       child:
               TabBar(
                 controller: widget.tabController,
                 isScrollable: true,
+                
                 labelColor: BreveColors.black,
                 indicator: UnderlineTabIndicator(
                     borderSide:

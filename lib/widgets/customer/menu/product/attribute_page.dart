@@ -35,7 +35,7 @@ class _ConstrainedPickerPageState extends State<ConstrainedPickerPage> {
                     onTap: () => setState(() => widget.group.toggle(o)),
         )).toList(),
         
-            ListTile(title:  Text("Add"), trailing: Icon(Icons.add), onTap: widget.onAdd)
+            if(widget.onAdd != null) ListTile(title:  Text("Add"), trailing: Icon(Icons.add), onTap: widget.onAdd)
         ]));
       
     }

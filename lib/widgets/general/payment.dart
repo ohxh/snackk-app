@@ -1,20 +1,26 @@
 import 'package:breve/secrets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 
 class Payment {
-  static void init() {
+  static void init() async{
+
+    var global = await Firestore.instance.document("global/stripe").get();
+    print(global.data);
+    var pk = global["publishableKey"];
+    print("PPPP" + pk);
     StripePayment.setOptions(StripeOptions(
-        publishableKey: Secrets.stripePk,
-        merchantId: Secrets.stripeMerchantId,
+        publishableKey: pk,
+        merchantId: pk,
         androidPayMode: 'test'));
 
     SystemChannels.lifecycle.setMessageHandler((msg) {
       if (msg == AppLifecycleState.resumed.toString()) {
         StripePayment.setOptions(StripeOptions(
-            publishableKey: Secrets.stripePk,
-            merchantId: Secrets.stripeMerchantId,
+            publishableKey: pk,
+            merchantId: pk,
             androidPayMode: 'test'));
       }
     });

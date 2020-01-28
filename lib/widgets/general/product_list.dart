@@ -28,7 +28,7 @@ class ProductList extends StatelessWidget {
             contentPadding: EdgeInsets.all(8),
             title: Padding(padding: EdgeInsets.only(left: 8), child: Text(product.titleString,
                 style: TextStyles.label),),
-            subtitle: Padding(padding: EdgeInsets.only(left: 12), child: Text(product.detailString, style: TextStyle(color: BreveColors.black))),
+            subtitle: product.detailString.trim() == "" ? null : Padding(padding: EdgeInsets.only(left: 12), child: Text(product.detailString, style: TextStyle(color: BreveColors.black))),
             trailing: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,

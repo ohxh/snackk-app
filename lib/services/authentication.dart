@@ -14,7 +14,7 @@ class AuthStatus {
     
     var doc = await Database.getUserDoc(fUser.uid);
     print(doc.data);
-    while(!doc.exists || doc.data["displayName"] == null || doc.data["phone"] == null) {
+    while(!doc.exists || (doc.data ?? {})["displayName"] == null || (doc.data ?? {})["phone"] == null) {
       return NeedsProfile(fUser.uid);
     }
     
@@ -122,17 +122,18 @@ class Auth {
     if(!(user is LoggedIn)) throw ErrorDescription("USer isn't loggedin");
     try {
         await Firestore.instance.document("users/${(user as LoggedIn).uid}").setData({"displayName":displayName,"phone":phone}, merge: true);
-        print("Set!");
         await init();
-        print("initt");
     } catch(e) {
       print(e.toString());
     }
   }
 
   static Future<void> init() async {
+    print("init()");
     FirebaseUser fUser = await _firebaseAuth.currentUser();
+    print(fUser);
     status.value = await AuthStatus.fromFirebaseUser(fUser);
+    print(status.value);
   }
 
   static Future<void> signOut() async {

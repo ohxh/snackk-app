@@ -1,3 +1,4 @@
+import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/general/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:breve/services/authentication.dart';
@@ -64,12 +65,11 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget build(BuildContext context) {
     return new 
     Theme(
-      data: ThemeData.dark().copyWith(accentColor: Colors.white),
+      data: BreveTheme.dark.copyWith(accentColor: Colors.white),
       child:
     Scaffold(
-      appBar: AppBar(brightness: Brightness.dark, backgroundColor: Colors.black),
       backgroundColor: Colors.black,
-      resizeToAvoidBottomInset: false,
+      appBar: AppBar(automaticallyImplyLeading: false, backgroundColor: Colors.black, brightness: Brightness.dark,),
         body: Stack(
           children: <Widget>[
             _showForm(),
@@ -78,24 +78,30 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget _showForm() {
-    return Container(alignment: Alignment.topCenter, child: Container(
+    return  Container(
       constraints: BoxConstraints(maxWidth: 400),
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(left:24, right: 24, top: 64, bottom: 64),
         child: new Form(
           key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
+          child: new Column(
+           
             children: <Widget>[
-              showLogo(),
-              SizedBox(height: 50),
+              Expanded(child:
+             Align(child:
+              Text("brevé", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),
+              alignment: Alignment.center,
+              )),
+         Expanded(child: Column(children: <Widget>[
               showErrorMessage(),
               showEmailInput(),
-              showPasswordInput(),
+              showPasswordInput(),])),
+            Expanded(child: Column(children: <Widget>[
               showPrimaryButton(),
-              showSecondaryButton(),
+              showSecondaryButton(),]))
             ],
           ),
-        )));
+          
+        ));
     
   }
 
@@ -115,16 +121,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         height: 0.0,
       );
     }
-  }
-
-  Widget showLogo() {
-    return new Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
-        child: Center(child: Text("brevé", style: TextStyle(fontSize: 48, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),)
-      ),
-    );
   }
 
   Widget showEmailInput() {
@@ -161,13 +157,15 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget showSecondaryButton() {
-    return new CustomButton(
-
+    return new 
+    Padding(padding:EdgeInsets.only(top:16), child: CustomButton(
+      
        title:
             _isLoginForm ? 'Create an account' : 'Have an account? Sign in',
             style: ButtonStyles.text,
+            isMinimal: true,
             brightness:  Brightness.dark,
-        onPressed: toggleFormMode);
+        onPressed: toggleFormMode));
   }
 
   Widget showPrimaryButton() {
@@ -176,7 +174,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         child: SizedBox(
           height: 40.0,
           child: new CustomButton(title: _isLoginForm ? 'Login' : 'Create account',
-                style: ButtonStyles.filled,
+          isMinimal: false,
+          icon: Icons.arrow_forward,
+          style: ButtonStyles.text,
                 brightness: Brightness.dark,
             onPressed: validateAndSubmit,
           ),

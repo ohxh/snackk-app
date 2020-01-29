@@ -42,6 +42,8 @@ class EditableOrder extends Pushable with Order {
   int get totalPrice => subtotal + tax + tip;
   int get totalWithServiceCharge => totalPrice + 40;
 
+  DateTime timeDue =DateTime.now();
+
   addOrUpdate(SpecificProduct product) {
     SpecificProduct old =
         cart.firstWhere((p) => p.uuid == product.uuid, orElse: () => null);
@@ -67,7 +69,7 @@ class EditableOrder extends Pushable with Order {
           'tip': this.tip,
           'tax': this.tax,
           'isCarryOut': this.carryOut,
-          'timeDue': Timestamp.now(),
+          'timeDue': this.timeDue,
           'subtotal': this.subtotal,
           'totalPrice': this.totalPrice,
       };
@@ -104,5 +106,10 @@ class EditableOrder extends Pushable with Order {
     var doc = await push(CustomerDatabase.instance.ordersRef);
     if(doc["_isError"] == true) return null;
     return CustomerOrder.fromDocument(doc);
+  }
+
+  void toggleCarryOut() {
+    carryOut = !carryOut;
+    notifyListeners();
   }
 }

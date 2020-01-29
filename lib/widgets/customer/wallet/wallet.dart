@@ -75,7 +75,7 @@ class _WalletState extends State<Wallet> {
             Column(
             children: [
               
-              ConstrainedPickerTile(SelectableGroup<int>.singleChoice(name: "Reload", options: [100, 200, 300],
+              ConstrainedPickerTile(SelectableGroup<int>.singleChoice(name: "Reload", options: [2000, 3500, 6000],
               
                value: reload.amount,  getOptionName: (o) => formatPrice(o), onSelectionUpdate: (x) => reload.amount = x
             

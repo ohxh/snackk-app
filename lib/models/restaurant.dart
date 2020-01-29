@@ -23,7 +23,13 @@ class RestaurantSchedule {
     return TimeOfDay(hour: json["hour"], minute: json["minute"]);
   }
 
+  bool isSameDay(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
   bool isOpen(DateTime time) {
+    if(acceptingOrders == false) return false; //temporarily closed
+    if(closures.where((a) => isSameDay(a, time.subtract(Duration(hours: 3)))).length > 0) return false; //closure today
     int businessDay = time.subtract(Duration(hours: 3)).weekday;
     double now = toDouble(TimeOfDay(hour: time.hour, minute: time.minute));
     double opening = toDouble(openings[businessDay -1]);
@@ -68,13 +74,13 @@ class Restaurant {
   double taxPercent;
 
   Restaurant.fromDocument(DocumentSnapshot doc) {
+    
     id = doc.documentID;
     name = doc["name"];
     image = doc["image"];
     address = doc["address"];
     menuId = doc["menuId"];
     taxPercent = doc["taxPercent"];
-
     schedule = RestaurantSchedule.fromJson(doc['schedule']);
   }
 }

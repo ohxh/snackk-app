@@ -2,7 +2,6 @@ import 'package:breve/models/restaurant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:breve/theme/theme.dart';
 
 class TimePickerModal extends StatefulWidget {
@@ -10,7 +9,7 @@ class TimePickerModal extends StatefulWidget {
   Function(DateTime) onChanged;
   bool showRelative;
   int increment;
-  TimePickerModal(RestaurantSchedule schedule, this.onChanged, {this.showRelative = true, this.increment = 5});
+  TimePickerModal(this.restaurantSchedule, this.onChanged, {this.showRelative = true, this.increment = 5});
 
   @override
   _TimePickerModalState createState() => _TimePickerModalState();
@@ -33,8 +32,6 @@ class _TimePickerModalState extends State<TimePickerModal> {
     DateTime rounded = DateTime(start.year, start.month, start.day, start.hour,
         ((start.minute) / widget.increment).ceil() * widget.increment);
 
-    if (widget.showRelative) times.add(DateTime.now());
-    else times.add(rounded);
     for (int i = 0; i < (24 * (60/widget.increment)); i++) {
       rounded = rounded.add(Duration(minutes: widget.increment));
       //if it's open
@@ -62,7 +59,7 @@ class _TimePickerModalState extends State<TimePickerModal> {
             " minutes)"
         : " (" +
             time.difference(DateTime.now()).inHours.toString() +
-            " restaurantSchedule)"));
+            " hours)"));
   }
 
   @override

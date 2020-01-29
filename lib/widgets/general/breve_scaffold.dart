@@ -49,9 +49,9 @@ class BreveScaffold extends StatefulWidget {
       this.logo,
       this.scrollable = true, 
       this.centerTitle=false, this.color}) {
-        List<Widget> parsed = content.keys.map((t) => t = t is Widget ? t : Text(t)).toList();
-        this.body = TabBarView(children: parsed.toList());
-        this.tabs = content.values.toList();
+        List<Widget> parsed = content.keys.map((t) => t = t is Widget ? t : Tab(text: t)).toList();
+        this.body = TabBarView(children: content.values.toList());
+        this.tabs = parsed.toList();
       }
 
 
@@ -77,7 +77,7 @@ class _BreveScaffoldState extends State<BreveScaffold> {
           drawer: widget.drawer,
           body: widget.body,
           appBar: PreferredSize(
-            preferredSize: widget.tabs != null ? Size.fromHeight(140.0) : Size.fromHeight(100),
+            preferredSize: widget.tabs != null ? Size.fromHeight(160.0) : Size.fromHeight(100),
             child: AppBar(
               brightness: widget.brightness,
               elevation: 0,

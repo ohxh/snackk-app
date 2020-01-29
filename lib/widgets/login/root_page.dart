@@ -1,5 +1,7 @@
 
 import 'package:breve/models/restaurant.dart';
+import 'package:breve/services/global_data.dart';
+import 'package:breve/services/notifications.dart';
 import 'package:breve/widgets/admin_home_page.dart';
 import 'package:breve/widgets/customer/home_page.dart';
 import 'package:breve/widgets/general/listenable_rebuilder.dart';
@@ -27,7 +29,13 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-    Auth.init();
+    
+  }
+
+  void go() async {
+    await GlobalData.init();
+    await Auth.init();
+    Notifications.init();
     Payment.init();
   }
 
@@ -35,7 +43,8 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
    return
    ListenableRebuilder(Auth.status, (_) {
-    if(Auth.status.value is NotDetermined) return WaitingScreen();
+    if(Auth.status.value is NotDetermined) 
+    return WaitingScreen();
     if(Auth.status.value is NotLoggedIn) return LoginSignupPage();
     if(Auth.status.value is NeedsProfile) return SetProfilePage();
     if(Auth.status.value is Customer) return CustomerHomePage();

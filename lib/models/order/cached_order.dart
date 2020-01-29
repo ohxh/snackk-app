@@ -45,8 +45,8 @@ class CachedOrder extends Deserialized with Order {
     timeSubmitted = fulfillment["timeSubmitted"].toDate();
     timeDue = fulfillment["timeDue"].toDate();
 
-    status = parseStatus(fulfillment["status"]);
-    refundReason = fulfillment["refund_reason"];
+    status = parseStatus(doc["status"]);
+    refundReason = doc["refund_reason"];
   }
 
   static OrderStatus parseStatus(String s) {

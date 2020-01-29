@@ -1,4 +1,5 @@
 import 'package:breve/services/database.dart';
+import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/general/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:breve/services/authentication.dart';
@@ -59,16 +60,15 @@ class _SetProfilePageState extends State<SetProfilePage> {
     });
   }
 
-  @override
+    @override
   Widget build(BuildContext context) {
     return new 
     Theme(
-      data: ThemeData.dark().copyWith(accentColor: Colors.white),
+      data: BreveTheme.dark.copyWith(accentColor: Colors.white),
       child:
     Scaffold(
-      appBar: AppBar(brightness: Brightness.dark, backgroundColor: Colors.black),
+      appBar: AppBar(automaticallyImplyLeading: false, backgroundColor: Colors.black, brightness: Brightness.dark,),
       backgroundColor: Colors.black,
-      resizeToAvoidBottomInset: false,
         body: Stack(
           children: <Widget>[
             _showForm(),
@@ -76,25 +76,32 @@ class _SetProfilePageState extends State<SetProfilePage> {
         )));
   }
 
+  
+
   Widget _showForm() {
-    return Container(alignment: Alignment.topCenter, child: Container(
+    return  Container(
       constraints: BoxConstraints(maxWidth: 400),
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.only(left:24, right: 24, top: 64, bottom: 64),
         child: new Form(
           key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
+          child: new Column(
+           
             children: <Widget>[
-              showLogo(),
-              SizedBox(height: 50),
+              Expanded(child:
+             Align(child:
+              Text("A few more things...", style: TextStyles.largeLabel.copyWith(color:Colors.white)),
+              alignment: Alignment.center,
+              )),
+         Expanded(child: Column(children: <Widget>[
               showErrorMessage(),
               showEmailInput(),
-              showPasswordInput(),
-              showPrimaryButton(),
-              showSecondaryButton(),
+              showPasswordInput(),])),
+            Expanded(child: Column(children: <Widget>[
+            CustomButton(brightness: Brightness.light, onPressed: validateAndSubmit, title: "Continue", icon: Icons.arrow_forward)]))
             ],
           ),
-        )));
+          
+        ));
     
   }
 
@@ -116,15 +123,6 @@ class _SetProfilePageState extends State<SetProfilePage> {
     }
   }
 
-  Widget showLogo() {
-    return new Hero(
-      tag: 'hero',
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
-        child: Center(child: Text("set profile", style: TextStyle(fontSize: 48, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),)
-      ),
-    );
-  }
 
   Widget showEmailInput() {
     return Padding(
@@ -160,26 +158,4 @@ class _SetProfilePageState extends State<SetProfilePage> {
     );
   }
 
-  Widget showSecondaryButton() {
-    return new CustomButton(
-
-       title:
-            _isLoginForm ? 'Create an account' : 'Have an account? Sign in',
-            style: ButtonStyles.text,
-            brightness:  Brightness.dark,
-        onPressed: toggleFormMode);
-  }
-
-  Widget showPrimaryButton() {
-    return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: SizedBox(
-          height: 40.0,
-          child: new CustomButton(title: _isLoginForm ? 'Login' : 'Create account',
-                style: ButtonStyles.filled,
-                brightness: Brightness.dark,
-            onPressed: validateAndSubmit,
-          ),
-        ));
-  }
 }

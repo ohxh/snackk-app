@@ -39,12 +39,26 @@ class BreveTheme {
     accentColor: BreveColors.white,
   );
 
-  static ThemeData dark = base.copyWith(
+  static ThemeData dark = ThemeData(
+    textTheme: new TextTheme(
+      body1: new TextStyle(color: Colors.white),
+      body2: new TextStyle(color: Colors.white),
+      button: new TextStyle(color: Colors.white),
+      caption: new TextStyle(color: Colors.white),
+      display1: new TextStyle(color: Colors.white),
+      display2: new TextStyle(color: Colors.white),
+      display3: new TextStyle(color: Colors.white),
+      display4: new TextStyle(color: Colors.white),
+      headline: new TextStyle(color: Colors.white),
+      subhead: new TextStyle(color: Colors.white), // <-- that's the one
+      title: new TextStyle(color: Colors.white),
+    ),
     scaffoldBackgroundColor: BreveColors.black,
+    fontFamily: 'Montserrat',
     brightness: Brightness.dark,
     canvasColor: BreveColors.black,
-    primaryColor: BreveColors.black,
-    primaryColorLight: BreveColors.black,
+    primaryColor: BreveColors.white,
+    primaryColorLight: BreveColors.white,
     buttonTheme: ButtonStyle.dark,
     bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
     backgroundColor: BreveColors.black,
@@ -103,9 +117,9 @@ class TextStyles {
   static const error = TextStyle(
       color: BreveColors.red, fontSize: 18, fontWeight: FontWeight.w600);
   static const selectedTab =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: BreveColors.black);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
   static const unselectedTab =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: BreveColors.black);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
   static const paragraph = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,

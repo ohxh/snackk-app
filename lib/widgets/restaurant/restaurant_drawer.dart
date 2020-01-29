@@ -54,10 +54,11 @@ class BreveDrawer extends StatelessWidget {
                     (Auth.user as HasProfile).email,
                     style: TextStyles.whiteLabel,
                   ),
+                  SizedBox(height: 4),
                   Text(
                      (Auth.user as HasProfile).name + (
                     !(Auth.user is Customer) ? (" (" + Auth.user.runtimeType.toString() + ")") : ""),
-                    style: TextStyles.whiteLabel,
+                    style: TextStyles.whiteParagraph,
                   ),
                 ]),
             decoration: BoxDecoration(color: BreveColors.black),

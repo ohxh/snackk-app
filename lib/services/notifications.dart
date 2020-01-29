@@ -37,7 +37,7 @@ class Notifications {
      
      _firebaseMessaging.getToken().then((token) {
        print("FCM TOKEN: " + token);
-       CustomerDatabase.instance.setFCMToken(token);
+       Database.instance.setFCMToken(token);
        });
   }
 }

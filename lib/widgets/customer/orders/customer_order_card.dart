@@ -38,7 +38,6 @@ class _CustomerOrderCardState extends State<CustomerOrderCard> with TickerProvid
   }
 
   @override
-
   Widget build(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(bottom: 8),

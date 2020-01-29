@@ -11,16 +11,20 @@ class CustomButton extends StatelessWidget {
   ButtonStyles style;
   bool isLoading;
   Brightness brightness;
-  bool isLarge;
+  bool isInline;
+  bool isMinimal;
 
   CustomButton(
-      {this.onPressed,
+    
+      {
+        this.isMinimal = false,
+        this.onPressed,
       this.title,
       this.icon,
       this.style = ButtonStyles.filled,
       this.brightness = Brightness.light,
       this.isLoading = false,
-      this.isLarge = false});
+      this.isInline = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,32 +34,37 @@ class CustomButton extends StatelessWidget {
             : BreveColors.black)
         : BreveColors.darkGrey;
 
+    if(isMinimal) {mainColor = BreveColors.darkGrey;}
+
     Color secondaryColor = this.brightness == Brightness.dark
         ? BreveColors.black
         : BreveColors.white;
     Color disabledColor = BreveColors.darkGrey;
+
     if (isLoading == true) {
-      return Center(
+      return Container(
+        height: 48,
+        alignment: Alignment.center,
           child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(mainColor)));
     }
-    TextStyle text =  TextStyle();
+    TextStyle text = isInline ? TextStyle() : TextStyles.largeLabel;
+
     switch (this.style) {
       case ButtonStyles.filled:
         {
           return MaterialButton(
-            
-            minWidth: isLarge ? double.infinity : 0,
+            minWidth: !isInline ? double.infinity : 0,
             disabledColor: disabledColor,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(this.title, style: text.apply(color: secondaryColor)),
+                  Text(this.title, style: TextStyle(color: secondaryColor)),
                   if(icon != null)
                   SizedBox(width: 16),
                   if(icon != null)
-                    Icon(this.icon, color: Colors.white, size: 20.0)
+                    Icon(this.icon, color: secondaryColor, size: 20.0)
                 ]),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -68,12 +77,12 @@ class CustomButton extends StatelessWidget {
       case ButtonStyles.outline:
         {
           return MaterialButton(
-              minWidth: isLarge ? double.infinity : 0,
+              minWidth: !isInline ? double.infinity : 0,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                   side: BorderSide(color: mainColor, width: 1.5)),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
-                Text(this.title, style: text.apply(color: mainColor)),
+                Text(this.title, style: TextStyle(color: mainColor)),
                 icon == null ? SizedBox() : Icon(this.icon, color: mainColor)
               ]),
               onPressed: this.onPressed);
@@ -83,14 +92,13 @@ class CustomButton extends StatelessWidget {
       case ButtonStyles.text:
         {
           return Container(
-              height: 20,
+              height: 36,
               child: FlatButton(
                   padding: EdgeInsets.zero,
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
                     Text(this.title, style: text.apply(color: mainColor)),
-                    icon == null
-                        ? SizedBox()
-                        : Icon(this.icon, color: mainColor)
+                    if(icon != null && !isInline) SizedBox(width: 16,),
+                    if(icon !=null) Icon(this.icon, color: mainColor)
                   ]),
                   onPressed: this.onPressed));
         }

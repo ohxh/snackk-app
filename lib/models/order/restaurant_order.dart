@@ -21,7 +21,7 @@ class RestaurantOrder extends CachedOrder {
   
   void refund(String reason) {
     Firestore.instance.collection("orders").document(id).setData(
-      {"status": "ready",
+      {"status": "cancelled",
       "refundReason": reason}, 
       merge: true);
   }

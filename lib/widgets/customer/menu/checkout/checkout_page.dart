@@ -116,6 +116,28 @@ class _CheckoutPageState extends State<CheckoutPage> {
         : null;
   }
 
+  Function willPurchaseWithCard() {
+    return widget.order.cart.length > 0
+        ? () async {
+            var got = await widget.order.purchaseWithCard();
+            if (got == null)
+              showErrorDialog("Order failed", "Please try again");
+            else{
+              print(got);
+              Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                SuccessPage(got)),
+                                        (Route<dynamic> r) =>
+                                            r.isFirst == true);
+            }
+          }
+        : null;
+  }
+
+  
+
   void showPaymentSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -123,10 +145,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                CheckoutItem("Wallet Balance", 40),
-                CheckoutItem("Remaining cost", 400),
+                CheckoutItem("Wallet Balance", walletBalance),
+                CheckoutItem("Remaining cost", widget.order.totalPrice - walletBalance),
                 CheckoutItem("Service Fee", 40, onInfo: showServiceFeeInfo),
-                CheckoutItem("Total", widget.order.totalPrice, bold: true),
+                CheckoutItem("Total", widget.order.totalWithServiceCharge - walletBalance, bold: true),
                 SizedBox(height: 12),
                 InlineCardPicker(onUpdated: (id) {
                   widget.order.paymentMethod = id;
@@ -136,24 +158,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     child: ListenableRebuilder<EditableOrder>(
                         widget.order,
                         (_) => CustomButton(
-                            isLarge: true,
-                            title: "Submit order",
-                            icon: Icons.arrow_forward,
+                          style: ButtonStyles.filled,
+                            title: widget.order.paymentMethod != null ? "Submit order" : "Select a card",
+                            icon: widget.order.paymentMethod != null ? Icons.arrow_forward : null,
                             isLoading: widget.order.isPushing,
-                            onPressed: (_) =>
-                                widget.order.purchaseWithCard().then((o) {
-                                  if (o != null) {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                SuccessPage(o)),
-                                        (Route<dynamic> r) =>
-                                            r.isFirst == true);
-                                  } else {
-                                    showErrorDialog("Charge failed", "oops");
-                                  }
-                                })))),
+                            onPressed: 
+                            widget.order.paymentMethod != null ?
+                            willPurchaseWithCard() : null,
+                                
+                                
+                                ))),
               ],
             )));
   }
@@ -182,14 +196,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   Spacer(),
                   Text("Order "),
                   CustomButton(
+                    isInline: true,
+                  
                       style: ButtonStyles.text,
-                      onPressed: () {
-                        widget.order.carryOut = !widget.order.carryOut;
-                      },
+                      onPressed: 
+                        widget.order.toggleCarryOut
+                   ,
                       title: (widget.order.carryOut ? "to go" : "to stay"),
                       icon: Icons.expand_more),
                   Text("ready at  "),
                   CustomButton(
+                    isInline: true,
                       style: ButtonStyles.text,
                       title: DateFormat.jm().format(DateTime.now()),
                       icon: Icons.expand_more,
@@ -199,7 +216,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             builder: (context) => TimePickerModal(
                                 widget.order.restaurant.schedule,
                                 (time) => this.setState(() {
-                                      selectedTime = time;
+                                      widget.order.timeDue = time;
                                     })));
                       }),
                   Spacer(),
@@ -234,27 +251,28 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   CheckoutItem("Wallet balance", walletBalance),
                 Spacer(),
                 Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                    padding: EdgeInsets.only(left: 24, right: 24, bottom: 40),
                     child: Column(children: [
                       walletState == WalletState.Sufficient
                           ? CustomButton(
-                              isLarge: true,
+                            style: ButtonStyles.filled,
                               title: "Purchase with wallet",
                               icon: Icons.arrow_forward,
                               isLoading: widget.order.isPushing,
                               onPressed: willPurchaseWithWallet())
                           : CustomButton(
-                              isLarge: true,
+                            style: ButtonStyles.filled,
                               title: walletState == WalletState.Empty
                                   ? "Load wallet to pay"
                                   : "Reload wallet to pay",
-                              icon: Icons.account_balance_wallet,
+                              icon: Icons.arrow_forward,
                               onPressed: showWalletCard,
                             ), //showWalletCard;
-                      if (walletState != WalletState.Sufficient)
-                        SizedBox(height: 10),
+        if (walletState != WalletState.Sufficient)
+        SizedBox(height: 16),
                       if (walletState != WalletState.Sufficient)
                         CustomButton(
+                          isInline: true,
                           style: ButtonStyles.text,
                           title: walletState == WalletState.Empty
                               ? "Pay with card"

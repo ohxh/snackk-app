@@ -17,6 +17,7 @@ class Database {
   DocumentReference userDoc;
 
   Database(String uid) {
+    instance = this;
     userDoc = _db.document("users/$uid");
   }
 
@@ -70,8 +71,8 @@ class RestaurantDatabase extends Database {
 
     restaurantDoc = restaurantsRef.document(rid);
     
-    upcomingOrdersQuery = isOwn(isValid(ordersRef)).where("fulfillment.status", isEqualTo: "paid");
-    completeOrdersQuery = isOwn(isValid(ordersRef)).where("fulfillment.status", whereIn: ["ready", "cancelled"]);
+    upcomingOrdersQuery = isOwn(isValid(ordersRef)).where("status", isEqualTo: "paid");
+    completeOrdersQuery = isOwn(isValid(ordersRef)).where("status", whereIn: ["ready", "refunded"]);
   }
 
   static void init(String uid, rid) async {

@@ -6,6 +6,7 @@ import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/customer/menu/checkout/line_item.dart';
 import 'package:breve/widgets/customer/orders/order_status_indicator.dart';
 import 'package:breve/widgets/general/badge.dart';
+import 'package:breve/widgets/general/breve_card.dart';
 import 'package:breve/widgets/general/custom_button.dart';
 import 'package:breve/widgets/general/product_list.dart';
 import 'package:breve/widgets/restaurant/orders/shop_order_options_menu.dart';
@@ -78,11 +79,8 @@ class _ShopOrderCardState extends State<ShopOrderCard>
         padding: EdgeInsets.only(bottom: 8),
         child: Row(children: [
           Expanded(
-            child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    boxShadow: [Shadows.light],
-                    color: BreveColors.white),
+            child: BreveCard(
+              
                 child: Column(children: [
                   showCardHeader(),
                   AnimatedSize(
@@ -105,7 +103,7 @@ class _ShopOrderCardState extends State<ShopOrderCard>
   Widget showCardHeader() {
     return GestureDetector(
         child: Container(
-          padding: EdgeInsets.only(left: 16, right: 24, top: 16, bottom: 16),
+          margin: EdgeInsets.only(left: 16, right: 24, top: 16, bottom: 16),
           color: BreveColors.white,
           child: Row(
             children: [
@@ -161,7 +159,9 @@ class _ShopOrderCardState extends State<ShopOrderCard>
   }
 
   Widget showPaymentInfo() {
-    return Column(children: [
+    return 
+    
+    Column(children: [
       CheckoutItem("Total", widget.order.price),
       CheckoutItem("Tip", widget.order.tip),
       SizedBox(
@@ -217,6 +217,7 @@ class _ShopOrderCardState extends State<ShopOrderCard>
           )),
       if (narrowScreen) Divider(color: BreveColors.darkGrey),
       if (narrowScreen)
+        Padding(padding: EdgeInsets.only(left: 16, right: 16,), child:
         Column(children: [
           Container(
               height: 34.0,
@@ -259,6 +260,6 @@ class _ShopOrderCardState extends State<ShopOrderCard>
             height: 10,
           ),
         ])
-    ]);
+        )]);
   }
 }

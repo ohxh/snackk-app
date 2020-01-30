@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:386784574817:android:5586f6293b302674c81920",
         "android_client_info": {
-          "package_name": "com.breve.breve"
+          "package_name": "com.getbreve.breve"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "386784574817-k3a3irurc2seos6fcvn3paog2ivffqi4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.breve.breve"
+                "bundle_id": "com.getbreve.breve"
               }
             }
           ]

@@ -1,4 +1,4 @@
-package com.breve.breve;
+package com.getbreve.breve;
 
  import io.flutter.app.FlutterApplication;
  import io.flutter.plugin.common.PluginRegistry;

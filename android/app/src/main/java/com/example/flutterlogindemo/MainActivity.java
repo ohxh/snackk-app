@@ -1,4 +1,4 @@
-package com.breve.breve;
+package com.getbreve.breve;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

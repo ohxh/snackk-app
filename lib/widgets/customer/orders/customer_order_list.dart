@@ -32,11 +32,7 @@ class CustomerOrderList extends StatelessWidget {
         textAlign: TextAlign.center,
       style :TextStyles.largeLabelGrey
           ),
-          SizedBox(height: 32),
-          CustomButton(
-            onPressed: navigateToRestaurants,
-            style: ButtonStyles.text, icon: Icons.arrow_forward, title: "Make your first order")
-            ,SizedBox(height: 64,),
+          SizedBox(height: 64)
           ],) 
           ));
   }

@@ -56,7 +56,7 @@ class SpecificProduct extends DisplayableAsProduct with ChangeNotifier {
   String get name => base.name;
 
   String get detailString {
-    return attributes.map((x) => x.toString()).where((x) => x!= null).reduce((a, b) => "$a\n$b");
+    return attributes.map((x) => x.toString()).where((x) => x!= "").join(", ");
   }
 
   void setSize(String size){

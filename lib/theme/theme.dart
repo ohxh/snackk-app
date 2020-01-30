@@ -115,11 +115,11 @@ class Shapes {
 
 class TextStyles {
   static const error = TextStyle(
-      color: BreveColors.red, fontSize: 18, fontWeight: FontWeight.w600);
+      color: BreveColors.red, fontSize: 18, fontWeight: FontWeight.w500);
   static const selectedTab =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
   static const unselectedTab =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.w600);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
   static const paragraph = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
@@ -142,12 +142,12 @@ class TextStyles {
       fontFamily: 'Montserrat');
   static const heading = TextStyle(
       fontSize: 40,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: BreveColors.black,
       fontFamily: 'Montserrat');
   static const display = TextStyle(
       fontSize: 60,
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       color: BreveColors.black,
       fontFamily: 'Montserrat');
   static const badge = TextStyle(fontSize: 13,

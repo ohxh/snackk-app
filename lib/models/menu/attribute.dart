@@ -14,7 +14,15 @@ class Attribute {
     min =  MaySegmentOnSize.fromJSON(json['min']) ?? SingleValue(0),
     max = MaySegmentOnSize.fromJSON(json['max']) ?? SingleValue(0),
     options = List() 
-    {json['options'].forEach((k,v) => options.add(Option.fromJSON(k,v)));}
+    {
+      print(json['options'].runtimeType);
+      json['options'].forEach((i) {
+        var k = i["name"];
+        var v = i["price"];
+        options.add(Option.fromJSON(k,v));
+        });
+      
+      }
 
   Attribute copyWithDefaults(List<Option> defaults) {
     Attribute attribute = Attribute();
@@ -34,16 +42,18 @@ class Attribute {
       }
       else if(json is Map) { 
         String name = json.keys.first;
-        String defaultJSON = json[name];
+        print(json[name]);
+        var defaultJSON = json[name];
         List<Option> defaults = new List();
-
+      
         Attribute atr = allAttributes.firstWhere(((x) => x.name == name));
 
         if(defaultJSON is String) { //vCases like "- Color: Red"
           defaults.addAll(atr.options.where((option) => option.name == defaultJSON).toList());
         }
-        if(defaultJSON.runtimeType == List) {
+        if(defaultJSON is List) {
           defaults.addAll(atr.options.where((option) => defaultJSON.contains(option.name)).toList());
+          print("Defaults: -----\n" + defaults.toString());
         }
       return atr.copyWithDefaults(defaults);
     }

@@ -9,6 +9,7 @@ class Category {
   Category.fromJSON(String k, dynamic v, {List<Attribute> allAttributes}) {
     name = k;
     products = List();
+    print("vvvv v" + v.toString());
     v?.forEach((product) => {
       products.add(GenericProduct.fromJSON(product, allAttributes: allAttributes))      });
   }

@@ -15,6 +15,10 @@ import 'card_picker_inline.dart';
 
 class Wallet extends StatefulWidget {
 
+  VoidCallback onReloadSuccess=(){};
+
+  Wallet({this.onReloadSuccess});
+
   @override
   _WalletState createState() =>
       _WalletState();
@@ -29,7 +33,11 @@ class _WalletState extends State<Wallet> {
       bool succeeded = (await r.push(Firestore.instance.collection("transactions"))).exists;
 
     if(!succeeded) Dialogs.showErrorDialog(context, "Wallet reload failed", "Please try again.");
-    else r = new WalletReload();
+    else {
+      r = new WalletReload();
+      widget.onReloadSuccess();
+    }
+
   }
 
   

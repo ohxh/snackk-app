@@ -17,6 +17,8 @@ class SpecificAttribute extends SelectableGroup<Option>{
     this.product = product;
   }
 
+  String get name => super.name + (allSameCost() ? " (${formatPrice(options[0].price.evaluate(product.size))} each)" : "");
+
   SpecificAttribute.fromCached(Attribute atr, List<String> selection, SpecificProduct product) 
   : super.simple(atr.name, atr.options, selection: atr.options.where((a) => selection.map((x) => x.toLowerCase()).contains(a.name.toLowerCase())).toList(), onSelectionUpdate: (_) => product.hasChanged())
   {
@@ -33,13 +35,15 @@ class SpecificAttribute extends SelectableGroup<Option>{
     return ListEquality().equals(base.defaults, selection);}
 
   String toString() => 
-  valueIsDefault() ? null :
-  "$name: " + selection.map((x) => x.toString()).reduce((a,b) => "$a, $b");
+  valueIsDefault() ? "" :
+  "${super.name}: " + selection.map((x) => x.toString()).reduce((a,b) => "$a, $b");
+
+  bool allSameCost() => this.options.fold(true, (a,b) => a && b.price.evaluate(product.size) == options[0].price.evaluate(product.size));
 
   int getOptionPrice(Option o) => o.price.evaluate(product.size);
 
   String getOptionName(Option o) {
-    if(o.price.evaluate(product.size) == 0) return o.name;
+    if(o.price.evaluate(product.size) == 0 || allSameCost()) return o.name;
     if(o.price.evaluate(product.size) == null) return o.name + " (\$)";
    return o.name + " (" + formatPrice(o.price.evaluate(product.size))+")";
   }

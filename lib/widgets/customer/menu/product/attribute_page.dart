@@ -3,6 +3,7 @@ import 'package:breve/models/product/specific_attribute.dart';
 import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
 import 'package:breve/widgets/general/breve_scaffold.dart';
+import 'package:breve/widgets/general/inline_error.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -19,15 +20,11 @@ class _ConstrainedPickerPageState extends State<ConstrainedPickerPage> {
   Widget build(BuildContext context) {
     return 
     BreveScaffold(
-      title: widget.group.name + (widget.group.selectionError != "" ? "   (" + widget.group.selectionError + ")" : ""),
-      
-     
-   
-
-
+      title: widget.group.name,
+  
       body: ListView(children: [
-        
-
+        SizedBox(height: 8),
+        Padding(padding: EdgeInsets.only(left: 16), child: InlineError(widget.group.selectionError),),
         ...widget.group.options.map((o) => 
         
         ListTile(title: Text(widget.group.getOptionName == null ? o.toString() : widget.group.getOptionName(o)),

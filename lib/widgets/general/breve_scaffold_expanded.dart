@@ -80,7 +80,7 @@ class _BreveScaffoldExpandedState extends State<BreveScaffoldExpanded> {
                         )),
                         centerTitle: true,
                         
-                        title: widget.logo != null ? widget.logo : (widget.expanded ? Text("") : Text(widget.title, style: TextStyle(color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black, fontWeight: FontWeight.w600))),
+                        title: widget.logo != null ? widget.logo : (widget.expanded ? Text("") : Text(widget.title, style: TextStyle(color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black, fontWeight: FontWeight.w500))),
                         floating: false,
                         pinned: !widget.expanded,
                       ),
@@ -90,8 +90,11 @@ class _BreveScaffoldExpandedState extends State<BreveScaffoldExpanded> {
                         automaticallyImplyLeading: false,
                         centerTitle: false,
                         title: Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Text(widget.title, style: widget.brightness == Brightness.dark ? TextStyles.whiteHeading : TextStyles.heading)),
+                            padding: EdgeInsets.only(left: 8, right: 8),
+                            child: 
+                           FittedBox(
+                          fit: BoxFit.fitWidth,
+                          child:  Text(widget.title, style: widget.brightness == Brightness.dark ? TextStyles.whiteHeading : TextStyles.heading))),
                         floating: false,
                         pinned: false,
                       ),

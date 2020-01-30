@@ -5,6 +5,7 @@ import 'package:breve/models/order/editable_order.dart';
 import 'package:breve/models/product/specific_product.dart';
 import 'package:breve/models/restaurant.dart';
 import 'package:breve/services/database.dart';
+import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/customer/menu/checkout/checkout_page.dart';
 import 'package:breve/widgets/customer/menu/product/product_page.dart';
 import 'package:breve/widgets/general/badge.dart';
@@ -48,11 +49,13 @@ class _RestaurantPageState extends State<RestaurantPage>
 
   Widget showItemList(Category category) {
     if (category.products.length > 0) {
-      return MediaQuery.removePadding(
+      return 
+      Padding(padding: EdgeInsets.only(bottom: 8), child: MediaQuery.removePadding(
           context: context,
           removeTop: true,
           removeBottom: true,
           child: ListView.separated(
+            
               separatorBuilder: (context, i) => Divider(
                     color: Colors.grey[400],
                     thickness: .7,
@@ -61,7 +64,9 @@ class _RestaurantPageState extends State<RestaurantPage>
               padding: EdgeInsets.only(left: 16, right: 16),
               itemBuilder: (context, index) {
                 GenericProduct product = category.products[index];
-                return ListTile(
+                return 
+                ListTile(
+
                     onTap: Routes.willPush(
                         context,
                         ProductPage(
@@ -69,13 +74,10 @@ class _RestaurantPageState extends State<RestaurantPage>
                           order: order,
                           restaurant: widget.restaurant,
                         )),
-                    trailing: IconButton(icon: Icon(Icons.arrow_forward)),
+                    trailing: Text(product.minPriceString),//IconButton(icon: Icon(Icons.arrow_forward)),
                     title: Text(product.name,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18)));
-              }));
+                        style: TextStyles.largeLabel));
+              })));
     } else
       return SizedBox();
   }
@@ -117,7 +119,7 @@ class _RestaurantPageState extends State<RestaurantPage>
                   body: TabBarView(
                       children: menu.categories
                           .map((x) => Padding(
-                              padding: EdgeInsets.only(top: 16),
+                              padding: EdgeInsets.only(top: 0),
                               child: showItemList(x)))
                           .toList()),
                 ))));

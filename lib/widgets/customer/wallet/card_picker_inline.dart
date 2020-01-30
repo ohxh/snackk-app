@@ -45,7 +45,7 @@ class _InlineCardPickerState extends State<InlineCardPicker> {
             SelectableGroup<CreditCardPreview>.singleChoice(name: "Credit card", options: cards, 
             value: selectedPaymentMethod,
 
-            getOptionName: (c)=>c?.last4, isOptionLoading: (c)=>c?.isPushing, onSelectionUpdate: (l) => onUpdate(l)), 
+            getOptionName: (CreditCardPreview c)=>c?.last4, isOptionLoading: (c)=>c?.isPushing, onSelectionUpdate: (l) => onUpdate(l)), 
             addText: cards?.length == 0 ? "Add credit card  " : null,
             onAdd: Routes.willPush(context, CreditCardModal()), bigTitle: true,
           );

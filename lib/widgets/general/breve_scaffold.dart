@@ -121,7 +121,7 @@ class _BreveScaffoldState extends State<BreveScaffold> {
                               color: widget.brightness == Brightness.dark
                                   ? BreveColors.white
                                   : BreveColors.black,
-                              fontWeight: FontWeight.w600))),
+                              fontWeight: FontWeight.w500))),
               bottom: 
               widget.tabs != null ? 
               PreferredSize(
@@ -143,7 +143,7 @@ class _BreveScaffoldState extends State<BreveScaffold> {
                     insets: EdgeInsets.only(left: 10, right: 10, bottom: 12)),
                 unselectedLabelColor: BreveColors.darkGrey,
                 labelPadding:
-                    EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 8),
+                    EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 7),
                 labelStyle: TextStyles.selectedTab,
                 unselectedLabelStyle: TextStyles.unselectedTab,
                 tabs: widget.tabs,

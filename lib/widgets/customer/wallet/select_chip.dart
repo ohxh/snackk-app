@@ -45,10 +45,12 @@ class SelectChip extends StatelessWidget {
                 style: TextStyle(
                     color: isSelected //x
                         ? Colors.white
-                        : Colors.black)), 
-                        if(icon != null) ...[Icon(icon, size: 20, color: isSelected //x
+                        : Colors.black,)), 
+                        if(icon != null) ...[
+                          Padding(padding: EdgeInsets.only(top: 2, left: name == "" ? 0 : 4), child:
+                          Icon(icon, size: 16, color: isSelected //x
                         ? Colors.white
-                        : Colors.black)]]),
+                        : Colors.black))]]),
             selected: isSelected, //x,
             onSelected: (b) => onTap(isSelected)
           );

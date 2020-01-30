@@ -6,7 +6,7 @@ class Option {
 
   Option.fromJSON(dynamic k, dynamic v) {
     name = k;
-    price = MaySegmentOnSize.fromJSON(v);
+    price = v == null ? SingleValue(0) : MaySegmentOnSize.fromJSON(v);
   }
 
   @override

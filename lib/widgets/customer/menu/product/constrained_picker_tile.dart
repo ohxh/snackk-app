@@ -2,6 +2,7 @@ import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/customer/menu/product/attribute_page.dart';
 import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
 import 'package:breve/widgets/customer/wallet/select_chip.dart';
+import 'package:breve/widgets/general/inline_error.dart';
 import 'package:breve/widgets/general/listenable_rebuilder.dart';
 import 'package:breve/widgets/utils.dart';
 import 'package:flutter/material.dart';
@@ -43,15 +44,15 @@ class _ConstrainedPickerTileState<T> extends State<ConstrainedPickerTile<T>> {
             SelectChip(name: widget.addText ?? "", icon: Icons.add, isSelected: false, onTap: (_) => widget.onAdd())];
 
     return ListTile(
-        title: Row(children: [
+        title: Row(children: [Wrap(children: [
           Text(widget.group.name, style: widget.bigTitle? TextStyles.largeLabel : TextStyle()),
           SizedBox(width: 16),
-          Text(widget.group.selectionError,
-              style: TextStyle(color: Colors.red[800]))
-        ]),
-        trailing: widget.isLong
+          InlineError(widget.group.selectionError), ]),
+          Spacer(),
+           widget.isLong
             ? Icon(Icons.arrow_forward, color: Colors.black)
-            : (widget.trailValue != null ? Text(widget.trailValue(widget.group.selection)) : null),
+            : (widget.trailValue != null ? Text(widget.trailValue(widget.group.selection)) : SizedBox()),
+        ]),
         subtitle: Wrap(runSpacing: -8, spacing: 6, children: options),
         onTap: widget.isLong
             ? Routes.willPush(context, ConstrainedPickerPage(widget.group))

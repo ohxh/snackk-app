@@ -12,8 +12,10 @@ class Menu {
     attributes = List();
       doc['attributes']?.forEach((atr) => attributes.add(Attribute.fromJSON(atr)));
     categories = List();
-    doc['products']?.forEach((k,v) => {
-      categories.add(Category.fromJSON(k, v, allAttributes: this.attributes))      });
+    doc['categories']?.forEach((i) {
+      String k = i["name"];
+      var v = i["products"] ?? [];
+      categories.add(Category.fromJSON(k, v, allAttributes: this.attributes));      });
   }
 
   @override

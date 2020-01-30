@@ -69,7 +69,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   void showWalletCard() {
-    showModalBottomSheet(context: context, builder: (_) => Wallet());
+    showModalBottomSheet(context: context, builder: (_) => Wallet(onReloadSuccess: () => Navigator.pop(context),));
   }
 
   Function willPurchaseWithWallet() {

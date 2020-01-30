@@ -28,6 +28,7 @@ class AuthStatus {
     if(doc["type"] == "owner") return Owner(doc);
     if(doc["type"] == "admin") return Admin(doc);
     if(doc["type"] == "waiting") return WaitingForApproval(doc);
+    return NotLoggedIn();
   }
 }
 class NotDetermined extends AuthStatus {}
@@ -95,23 +96,29 @@ class Auth {
 
   static Future<void> signIn(String email, String password) async {
     status.value = NotDetermined();
+    print("set at location 1");
     try {
         AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
         status.value = await AuthStatus.fromFirebaseUser(result.user);
+    print("finished try");
+
     } catch(e) {
       status.value = NotLoggedIn();
     }
-
   }
 
   static Future<void> signUp(String email, String password) async {
+    print("set at location 2");
+
     status.value = NotDetermined();
     try {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser fUser = result.user;
        status.value = await AuthStatus.fromFirebaseUser(fUser);
+    print("Finished try");
+
     } catch(e) {
       print(e);
       status.value = NotLoggedIn();
@@ -129,11 +136,11 @@ class Auth {
   }
 
   static Future<void> init() async {
-    print("init()");
     FirebaseUser fUser = await _firebaseAuth.currentUser();
     print(fUser);
     status.value = await AuthStatus.fromFirebaseUser(fUser);
-    print(status.value);
+    
+    Notifications.init();
   }
 
   static Future<void> signOut() async {

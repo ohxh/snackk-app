@@ -16,7 +16,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   String _password;
   String _errorMessage = "";
 
-  bool _isLoginForm = true;
+  bool _isLoginForm = false;
 
   // Check if form is valid before perform login or signup
   bool validateAndSave() {
@@ -65,39 +65,51 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget build(BuildContext context) {
     return new 
     Theme(
-      data: BreveTheme.dark.copyWith(accentColor: Colors.white),
+      
+      data: BreveTheme.dark.copyWith(accentColor: Colors.white, brightness: Brightness.dark),
       child:
     Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(automaticallyImplyLeading: false, backgroundColor: Colors.black, brightness: Brightness.dark,),
-        body: Stack(
-          children: <Widget>[
+        body: 
             _showForm(),
-          ],
-        )));
+        ));
   }
 
   Widget _showForm() {
     return  Container(
       constraints: BoxConstraints(maxWidth: 400),
-        padding: EdgeInsets.only(left:24, right: 24, top: 64, bottom: 64),
+        padding: EdgeInsets.only(left:24, right: 24, top: 0, bottom: 0),
         child: new Form(
+          
           key: _formKey,
           child: new Column(
            
             children: <Widget>[
-              Expanded(child:
-             Align(child:
-              Text("brevé", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),
+              Expanded(
+                flex: 3,
+                child:
+             Container(
+               
+              child: Text("brevé", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),
               alignment: Alignment.center,
               )),
-         Expanded(child: Column(children: <Widget>[
+         Expanded(flex: 3,
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.center,
+           children: <Widget>[
               showErrorMessage(),
               showEmailInput(),
-              showPasswordInput(),])),
-            Expanded(child: Column(children: <Widget>[
+              showPasswordInput(),
+              ])),
+            Expanded(
+              flex: 3,
+              child: Container(
+              alignment: Alignment.topCenter,
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
               showPrimaryButton(),
-              showSecondaryButton(),]))
+              showSecondaryButton(),])))
             ],
           ),
           
@@ -124,9 +136,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget showEmailInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-      child: new TextFormField(
+    return TextFormField(
         
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
@@ -136,7 +146,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             ),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onChanged: (value) => _email = value.trim(),
-      ),
+      
     );
   }
 
@@ -169,9 +179,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   Widget showPrimaryButton() {
-    return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: SizedBox(
+    return SizedBox(
           height: 40.0,
           child: new CustomButton(title: _isLoginForm ? 'Login' : 'Create account',
           isMinimal: false,
@@ -180,6 +188,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
                 brightness: Brightness.dark,
             onPressed: validateAndSubmit,
           ),
-        ));
+        );
   }
 }

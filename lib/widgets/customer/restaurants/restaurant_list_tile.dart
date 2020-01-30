@@ -12,9 +12,13 @@ class RestaurantListTile extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    String statusString = restaurant.schedule.isOpen(DateTime.now()) ?
+    "Open  ·  Closes " + restaurant.schedule.nextClosing().format(context) :
+      "Closed  ·  Opens " + restaurant.schedule.nextOpening().format(context);
     return new ListTile(
           title: Row(children: [Text(restaurant.name, style: TextStyles.label),SizedBox(width: 8), Padding(padding: EdgeInsets.only(bottom: 2), child: Text("(" + restaurant.address + ")", style: TextStyles.paragraph)),]),
-          subtitle: Text(restaurant.schedule.openStatusString(), style: TextStyles.paragraph), 
+          subtitle: Text(statusString, style: TextStyles.paragraph), 
           onTap: () {Navigator.push(context, new MaterialPageRoute(builder: (context) => RestaurantPage(restaurant))); }
           );
   }

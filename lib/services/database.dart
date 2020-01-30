@@ -32,9 +32,9 @@ class Database {
 class CustomerDatabase extends Database {
   static CustomerDatabase instance;
   
-
   Query ordersQuery;
   Query transactionsQuery;
+  Query sourcesQuery;
   CollectionReference sourcesRef;
   
   Firestore _db = Firestore.instance;
@@ -52,6 +52,8 @@ class CustomerDatabase extends Database {
     ordersQuery = isOwn(isNotError(ordersRef));
     transactionsQuery = isOwn(isNotError(transactionsRef));
     sourcesRef = userDoc.collection("sources");
+    sourcesQuery = isNotError(sourcesRef);
+
   }
 
   static void init(String uid) => 

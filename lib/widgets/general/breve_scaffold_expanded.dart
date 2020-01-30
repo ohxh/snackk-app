@@ -120,10 +120,10 @@ class _BreveScaffoldExpandedState extends State<BreveScaffoldExpanded> {
                             borderSide: BorderSide(
                                 width: 2.0, color: BreveColors.black),
                             insets:
-                                EdgeInsets.only(left: 20, right: 10, bottom: 12)),
+                                EdgeInsets.only(left: 16, right: 0, bottom: 12)),
                         unselectedLabelColor: BreveColors.darkGrey,
                         labelPadding: EdgeInsets.only(
-                            left: 20, right: 10, top: 8, bottom: 10),
+                            left: 16, right: 0, top: 8, bottom: 10),
                         labelStyle: TextStyles.selectedTab,
                         unselectedLabelStyle: TextStyles.unselectedTab,
                         tabs: widget.tabs,

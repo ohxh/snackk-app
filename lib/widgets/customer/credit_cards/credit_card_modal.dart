@@ -2,6 +2,9 @@
 import 'package:breve/services/authentication.dart';
 import 'package:breve/services/database.dart';
 import 'package:breve/theme/theme.dart';
+import 'package:breve/widgets/customer/credit_cards/credit_card_form.dart';
+import 'package:breve/widgets/customer/wallet/breve_credit_card.dart';
+import 'package:breve/widgets/general/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,8 @@ import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:stripe_payment/stripe_payment.dart';
+
+import '../../utils.dart';
 
 class CreditCardModal extends StatefulWidget {
   final String userId;
@@ -44,7 +49,7 @@ class CreditCardModalState extends State<CreditCardModal> {
 
   void tryPushCard(CreditCard card) async {
     StripePayment.createTokenWithCard(card).then((token) {
-      CustomerDatabase.instance.sourcesRef.add({"_push":{"tokenId": token.tokenId}, "_isPushing":true});
+      CustomerDatabase.instance.sourcesRef.add({"_push":{"tokenId": token.tokenId}, "_isPushing":true, "_isError": false});
       print("added");
           Navigator.pop(context);
     }).catchError(setError);
@@ -52,8 +57,7 @@ class CreditCardModalState extends State<CreditCardModal> {
 
   void setError(dynamic error) {
     print(error.toString());
-    _scaffoldKey.currentState
-        .showSnackBar(SnackBar(content: Text("Failed to add card.")));
+    Dialogs.showErrorDialog(context, "Failed to add card", error.message ?? "Please check your information and try again.");
   }
 
   @override
@@ -62,10 +66,11 @@ class CreditCardModalState extends State<CreditCardModal> {
         return Scaffold(
           key: _scaffoldKey,
           appBar: new AppBar(
-            backgroundColor: BreveColors.white,
+            brightness: Brightness.light,
+            backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text("Add Card",
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w400)),
+            style: TextStyles.largeLabel),
         elevation: 0.0,
         leading: new IconButton(
           onPressed: () => Navigator.pop(context),
@@ -83,15 +88,18 @@ class CreditCardModalState extends State<CreditCardModal> {
       resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.only(left: 16, right: 16),
             child: Column(
               children: <Widget>[
-                Container(
-                  height: 240,
-                  width: 400,
-                  child: Transform.scale(
-                    scale: 0.8,
-                    child: CreditCardWidget(
+               
+               if(MediaQuery.of(context).size.height > 800)
+                ClipRect(
+  child: Align(
+    alignment: Alignment.center,
+    heightFactor: 0.7,
+    child: Transform.scale(
+                    scale: 0.7,
+                    child: BreveCreditCard(
                       cardNumber: cardNumber,
                       expiryDate: expiryDate,
                       cardHolderName: cardHolderName,
@@ -99,12 +107,17 @@ class CreditCardModalState extends State<CreditCardModal> {
                       showBackView: isCvvFocused,
                     ),
                   ),
-                ),
+  ),
+),
+                
                 Expanded(
                   child: SingleChildScrollView(
-                    child: CreditCardForm(
+                    child: Column(children: [
+                 BreveCreditCardForm(
+                      onEditingComplete: () => tryPushCard(getFormData()),
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
+                    Padding(padding: EdgeInsets.only(top: 32, left: 16, right: 16), child: CustomButton(title: "Add card", icon: Icons.arrow_forward,   onPressed: () => tryPushCard(getFormData()),))])
                   ),
                 )
               ],

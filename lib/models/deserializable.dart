@@ -23,16 +23,21 @@ abstract class Pushable with ChangeNotifier {
     isPushing = true;
     notifyListeners();
 
-    var toPush={"_isPushing" : true, "_push" : json};
+    var toPush={"_isPushing" : true, "_isError":false, "_push" : json};
 
-    var ref = await collection.add(toPush);
+    var ref = await collection.add(toPush); 
 
     print("Pushing " + this.toString() + " to " + collection.toString());
-    DocumentSnapshot result = await ref.snapshots().skip(1).first;
-    print("Got " + result.data.toString());
+
+    DocumentSnapshot doc = await ref.get();
+    while(doc["_isPushing"] == true) {
+      doc = await ref.snapshots().first;
+    }
+
+    print("Got " + doc.data.toString());
     isPushing = false;
     notifyListeners();
 
-    return result;
+    return doc;
   }
 }

@@ -58,10 +58,6 @@ class RestaurantSchedule {
     int businessDay = DateTime.now().subtract(Duration(hours: 3)).weekday-1;
     return closings[businessDay];
   }
-
-  String openStatusString() {
-    return "Needs implementation";
-  }
 }
 
 class Restaurant {

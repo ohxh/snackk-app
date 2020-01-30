@@ -1,7 +1,10 @@
 
 import 'package:breve/services/authentication.dart';
+import 'package:breve/services/database.dart';
+import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/customer/credit_cards/credit_card_list_tile.dart';
 import 'package:breve/widgets/general/breve_scaffold.dart';
+import 'package:breve/widgets/general/streamed_list_builder.dart';
 import 'package:breve/widgets/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -32,32 +35,19 @@ class _CardsPageState extends State<CardsPage> {
 
   Widget showCreditCardPreviewList() {
     var user = Auth.status.value as HasProfile;
-    return StreamBuilder(
-        stream: Firestore.instance.collection('users/${user.uid}/sources')
-            .snapshots()
-            .map((q) => q.documents.map((d) => CreditCardPreview.fromDocument(d)).toList()),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                List<CreditCardPreview> cards = snapshot.data;
-    if (cards.length > 0) {
-      
-      return 
-      MediaQuery.removePadding(context: context, removeTop: true, removeBottom: true, child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: cards.length,
-          itemBuilder: (BuildContext context, int index) {
-            CreditCardPreview card = cards[index];
-            return CreditCardListTile(card);
+    return QueryListBuilder(
+        query: CustomerDatabase.instance.sourcesQuery,
+        builder: (BuildContext context, DocumentSnapshot snapshot) =>
+                
+    
+          CreditCardListTile(CreditCardPreview.fromDocument(snapshot)),
             
-          }));
-    } else {
-      return Center(
+    ifEmpty: Center(
           child: Text(
         "No saved cards",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 30.0),
-      ));
-    }
-  });
+      style :TextStyles.largeLabelGrey
+          )));
   }
 
   @override

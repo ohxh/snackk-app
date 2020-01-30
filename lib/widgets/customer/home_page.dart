@@ -50,7 +50,7 @@ class _CustomerHomePageState extends State<CustomerHomePage>
           controller: _tabController,
           children: <Widget>[
             RestaurantList(),
-            CustomerOrderList(),
+            CustomerOrderList(navigateToRestaurants: () => _tabController.animateTo(0),),
             ListView(children: [Wallet(), TransactionsList()])
           ],
         ));

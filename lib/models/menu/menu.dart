@@ -8,6 +8,7 @@ class Menu {
   List<Category> categories;
 
   Menu.fromDocument(DocumentSnapshot doc) {
+    print("MENU : " + doc.data.toString());
     attributes = List();
       doc['attributes']?.forEach((atr) => attributes.add(Attribute.fromJSON(atr)));
     categories = List();

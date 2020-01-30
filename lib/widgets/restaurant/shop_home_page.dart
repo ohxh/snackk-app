@@ -7,7 +7,7 @@ import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/general/breve_scaffold.dart';
 import 'package:breve/widgets/general/streamed_list_builder.dart';
 import 'package:breve/widgets/restaurant/orders/restaurant_order_card.dart';
-import 'package:breve/widgets/restaurant/restaurant_drawer.dart';
+import 'package:breve/widgets/general/breve_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ManagerHomePage extends StatelessWidget {
@@ -18,7 +18,7 @@ class ManagerHomePage extends StatelessWidget {
 
     return DefaultTabController(length: 2, child: BreveScaffold.withTabs(
         title: restaurant.name,
-        drawer: BreveDrawer([]),
+        drawer: BreveDrawer(),
         content: 
         {
           "Orders" : 

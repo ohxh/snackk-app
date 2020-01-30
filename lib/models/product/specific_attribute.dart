@@ -3,6 +3,7 @@ import 'package:breve/models/menu/may_segment_on_size.dart';
 import 'package:breve/models/menu/option.dart';
 import 'package:breve/models/product/specific_product.dart';
 import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
+import 'package:breve/widgets/utils.dart';
 import 'package:collection/collection.dart';
 
 class SpecificAttribute extends SelectableGroup<Option>{
@@ -36,6 +37,12 @@ class SpecificAttribute extends SelectableGroup<Option>{
   "$name: " + selection.map((x) => x.toString()).reduce((a,b) => "$a, $b");
 
   int getOptionPrice(Option o) => o.price.evaluate(product.size);
+
+  String getOptionName(Option o) {
+    if(o.price.evaluate(product.size) == 0) return o.name;
+    if(o.price.evaluate(product.size) == null) return o.name + " (\$)";
+   return o.name + " (" + formatPrice(o.price.evaluate(product.size))+")";
+  }
 
   String get selectionError {
     if(!isValid && product.size == null && (base.min is SegmentOnSize || base.max is SegmentOnSize)) return "Select a size";

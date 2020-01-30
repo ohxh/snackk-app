@@ -56,12 +56,13 @@ class TimeUtils {
 
 class Dialogs {
   static void showErrorDialog(BuildContext context, String title, String message) {
-    Widget okButton = CustomButton(
+    Widget okButton = Padding(padding: EdgeInsets.only(right: 8, bottom: 8), child:CustomButton(
+      style: ButtonStyles.text,
       title: "Ok",
             onPressed: () {
               Navigator.pop(context);
             },
-          );
+          ));
 
           // set up the AlertDialog
           AlertDialog alert = AlertDialog(
@@ -77,6 +78,7 @@ class Dialogs {
             context: context,
             builder: (BuildContext context) {
               return alert;
+              // alert;
             },
           );
   }

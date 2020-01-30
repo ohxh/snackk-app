@@ -2,6 +2,7 @@ import 'package:breve/models/order/customer_order.dart';
 import 'package:breve/models/order/editable_order.dart';
 import 'package:breve/services/authentication.dart';
 import 'package:breve/services/database.dart';
+import 'package:breve/services/global_data.dart';
 import 'package:breve/widgets/customer/menu/checkout/expanding_column.dart';
 import 'package:breve/widgets/customer/menu/checkout/success_page.dart';
 import 'package:breve/widgets/customer/menu/product/constrained_picker_tile.dart';
@@ -18,7 +19,6 @@ import 'package:breve/widgets/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:stripe_payment/stripe_payment.dart';
 import 'package:breve/theme/theme.dart';
 import 'line_item.dart';
 import 'order_time_picker_modal.dart';
@@ -46,35 +46,11 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return 60 * (second.hour - first.hour) + second.minute - first.minute;
   }
 
-  showErrorDialog(String title, String message) {
-    Widget okButton = FlatButton(
-      child: Text("OK", style: TextStyle(color: BreveColors.black)),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
 
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(title),
-      content: Text(message),
-      actions: [
-        okButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
 
   showServiceFeeInfo() {
-    showErrorDialog("Service Fee",
-        "Breve charges a \$0.40 service fee on credit card transactions to allow you to pay however you want without impacting shops. To avoid the fee, pay from your wallet balance.");
+    Dialogs.showErrorDialog(context, GlobalData.instance.serviceFeeTitle,
+        GlobalData.instance.serviceFeeDescription);
   }
 
   submitOrder(EditableOrder order) async {
@@ -88,7 +64,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   SuccessPage(CustomerOrder.fromDocument(result))),
           (Route<dynamic> r) => r.isFirst == true);
     } else {
-      showErrorDialog("Charge failed", "oops");
+      Dialogs.showErrorDialog(context, "Order failed", "Please try again");
     }
   }
 
@@ -101,9 +77,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ? () async {
             var got = await widget.order.purchaseWithWallet();
             if (got == null)
-              showErrorDialog("Order failed", "Please try again");
+              Dialogs.showErrorDialog(context, "Order failed", "Please try again");
             else{
-              print(got);
+              
               Navigator.pushAndRemoveUntil(
                                         context,
                                         MaterialPageRoute(
@@ -121,7 +97,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ? () async {
             var got = await widget.order.purchaseWithCard();
             if (got == null)
-              showErrorDialog("Order failed", "Please try again");
+              Dialogs.showErrorDialog(context, "Card charge failed.", "Please double-check your information and try again.");
             else{
               print(got);
               Navigator.pushAndRemoveUntil(
@@ -136,8 +112,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
         : null;
   }
 
-  
-
   void showPaymentSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -147,14 +121,14 @@ class _CheckoutPageState extends State<CheckoutPage> {
               children: <Widget>[
                 CheckoutItem("Wallet Balance", walletBalance),
                 CheckoutItem("Remaining cost", widget.order.totalPrice - walletBalance),
-                CheckoutItem("Service Fee", 40, onInfo: showServiceFeeInfo),
+                CheckoutItem("Service Fee", GlobalData.instance.cardFee, onInfo: showServiceFeeInfo),
                 CheckoutItem("Total", widget.order.totalWithServiceCharge - walletBalance, bold: true),
                 SizedBox(height: 12),
                 InlineCardPicker(onUpdated: (id) {
                   widget.order.paymentMethod = id;
                 }),
                 Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsets.only(top: 16, right: 16, left: 16, bottom: 8),
                     child: ListenableRebuilder<EditableOrder>(
                         widget.order,
                         (_) => CustomButton(
@@ -269,7 +243,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               onPressed: showWalletCard,
                             ), //showWalletCard;
         if (walletState != WalletState.Sufficient)
-        SizedBox(height: 16),
+        SizedBox(height: 8),
                       if (walletState != WalletState.Sufficient)
                         CustomButton(
                           isInline: true,

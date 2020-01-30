@@ -1,6 +1,8 @@
 import 'dart:collection';
+import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -77,7 +79,8 @@ class _BreveScaffoldState extends State<BreveScaffold> {
           drawer: widget.drawer,
           body: widget.body,
           appBar: PreferredSize(
-            preferredSize: widget.tabs != null ? Size.fromHeight(160.0) : Size.fromHeight(100),
+            preferredSize: widget.tabs != null ? Size.fromHeight(WidgetsBinding.instance.window.padding.top + 78) : Size.fromHeight(WidgetsBinding.instance.window.padding.top + 24),
+            
             child: AppBar(
               brightness: widget.brightness,
               elevation: 0,

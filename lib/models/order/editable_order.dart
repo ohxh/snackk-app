@@ -7,6 +7,7 @@ import 'package:breve/models/product/specific_product.dart';
 import 'package:breve/models/restaurant.dart';
 import 'package:breve/services/authentication.dart';
 import 'package:breve/services/database.dart';
+import 'package:breve/services/global_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'order.dart';
 
@@ -40,7 +41,7 @@ class EditableOrder extends Pushable with Order {
   int get tax => (subtotal * restaurant.taxPercent).round();
 
   int get totalPrice => subtotal + tax + tip;
-  int get totalWithServiceCharge => totalPrice + 40;
+  int get totalWithServiceCharge => totalPrice + GlobalData.instance.cardFee;
 
   DateTime timeDue =DateTime.now();
 
@@ -92,7 +93,6 @@ class EditableOrder extends Pushable with Order {
 
   Future<CustomerOrder> purchaseWithWallet() {
     print("purchasing order with wallet");
-
     return purchase();
   }
 

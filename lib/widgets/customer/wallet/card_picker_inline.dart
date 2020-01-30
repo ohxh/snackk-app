@@ -35,16 +35,19 @@ class _InlineCardPickerState extends State<InlineCardPicker> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: CustomerDatabase.instance.sourcesRef.snapshots().map((q) =>
+        stream: CustomerDatabase.instance.sourcesQuery.snapshots().map((q) =>
             q.documents.map((d) => CreditCardPreview.fromDocument(d)).toList()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           List<CreditCardPreview> cards = snapshot.data;
+          print(cards);
           return ConstrainedPickerTile(
             
             SelectableGroup<CreditCardPreview>.singleChoice(name: "Credit card", options: cards, 
             value: selectedPaymentMethod,
 
-            getOptionName: (c)=>c?.last4, isOptionLoading: (c)=>c?.isPushing, onSelectionUpdate: (l) => onUpdate(l)), onAdd: Routes.willPush(context, CreditCardModal()), bigTitle: true,
+            getOptionName: (c)=>c?.last4, isOptionLoading: (c)=>c?.isPushing, onSelectionUpdate: (l) => onUpdate(l)), 
+            addText: cards?.length == 0 ? "Add credit card  " : null,
+            onAdd: Routes.willPush(context, CreditCardModal()), bigTitle: true,
           );
               
         });

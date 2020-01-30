@@ -135,6 +135,11 @@ class TextStyles {
       fontWeight: FontWeight.w500,
       color: BreveColors.black,
       fontFamily: 'Montserrat');
+  static const largeLabelGrey = TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w500,
+      color: BreveColors.darkGrey,
+      fontFamily: 'Montserrat');
   static const heading = TextStyle(
       fontSize: 40,
       fontWeight: FontWeight.w600,

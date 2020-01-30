@@ -12,8 +12,9 @@ class ConstrainedPickerTile<T> extends StatefulWidget {
   String Function(List<T>) trailValue;
   bool isLong;
   void Function() onAdd;
+  String addText;
   
-  ConstrainedPickerTile(this.group, {this.isLong=false, this.onAdd, this.bigTitle=false, this.trailValue});
+  ConstrainedPickerTile(this.group, {this.isLong=false, this.onAdd, this.bigTitle=false, this.trailValue, this.addText});
 
   @override
   _ConstrainedPickerTileState createState() => _ConstrainedPickerTileState<T>();
@@ -22,7 +23,6 @@ class ConstrainedPickerTile<T> extends StatefulWidget {
 class _ConstrainedPickerTileState<T> extends State<ConstrainedPickerTile<T>> {
   @override
   Widget build(BuildContext context) {
-    print("Rebuilt with Group " + widget.group.name +" contains " + widget.group.selection.toString());
   
     List<Widget> options = widget.isLong
         ? widget.group.selection
@@ -40,7 +40,7 @@ class _ConstrainedPickerTileState<T> extends State<ConstrainedPickerTile<T>> {
                 onTap: (_) => widget.group.toggle(o)))
             .toList(), 
             if(widget.onAdd != null)
-            SelectChip(name: "", icon: Icons.add, isSelected: false, onTap: (_) => widget.onAdd())];
+            SelectChip(name: widget.addText ?? "", icon: Icons.add, isSelected: false, onTap: (_) => widget.onAdd())];
 
     return ListTile(
         title: Row(children: [

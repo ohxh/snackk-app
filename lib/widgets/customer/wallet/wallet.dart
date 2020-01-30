@@ -39,7 +39,7 @@ class _WalletState extends State<Wallet> {
   @override
   Widget build(BuildContext context) {
    return LargeBreveCard(child: 
-   ChangeNotifierProvider<WalletReload>(builder: (_) => WalletReload(), 
+   ListenableProvider<WalletReload>(builder: (_) => WalletReload(), 
                   child: Consumer<WalletReload>(builder: (context, reload, _) => 
    Column(
           mainAxisSize: MainAxisSize.min,

@@ -9,6 +9,7 @@ class GenericProduct {
 
   GenericProduct.fromJSON(dynamic yaml, {List<Attribute> allAttributes}) {
     this.name = yaml['name'];
+    print("Product "+ this.name);
     this.defaultSize = yaml['defaultSize'];
     //Not MaySegmentOnSize as products must have a size 
     this.price = SegmentOnSize(LinkedHashMap.from(yaml['price'].cast<String, int>())); 

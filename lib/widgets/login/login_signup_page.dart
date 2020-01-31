@@ -1,5 +1,6 @@
 import 'package:breve/theme/theme.dart';
 import 'package:breve/widgets/general/custom_button.dart';
+import 'package:breve/widgets/general/inline_error.dart';
 import 'package:flutter/material.dart';
 import 'package:breve/services/authentication.dart';
 
@@ -55,7 +56,6 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   }
 
   void toggleFormMode() {
-    resetForm();
     setState(() {
       _isLoginForm = !_isLoginForm;
     });
@@ -69,14 +69,15 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
       data: BreveTheme.dark.copyWith(accentColor: Colors.white, brightness: Brightness.dark),
       child:
     Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
+      
         body: 
-            _showForm(),
-        ));
-  }
-
-  Widget _showForm() {
-    return  Container(
+        Container(alignment: Alignment.center,
+        child:
+            Container(
+              
+              
       constraints: BoxConstraints(maxWidth: 400),
         padding: EdgeInsets.only(left:24, right: 24, top: 0, bottom: 0),
         child: new Form(
@@ -85,36 +86,38 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
           child: new Column(
            
             children: <Widget>[
-              Expanded(
-                flex: 3,
-                child:
-             Container(
-               
-              child: Text("brevé", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2)),
-              alignment: Alignment.center,
-              )),
-         Expanded(flex: 3,
-         child: Column(
+              
+             Flexible(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.only(top: 0),
+                alignment: Alignment.bottomCenter,
+                child: Text("brevé", style: TextStyle(fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white, letterSpacing: 2))),
+              
+              ),
+         Flexible(flex: 3,
+         child: Container(child: Column(
            mainAxisAlignment: MainAxisAlignment.center,
            children: <Widget>[
-              showErrorMessage(),
+           Container(
+             child: InlineError((Auth.status.value as NotLoggedIn).error)),
+             SizedBox(height: 16,),
               showEmailInput(),
               showPasswordInput(),
-              ])),
-            Expanded(
-              flex: 3,
+              ]))),
+            
+           
+            Flexible(
+              flex: 1,
               child: Container(
-              alignment: Alignment.topCenter,
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
               showPrimaryButton(),
-              showSecondaryButton(),])))
+             if(MediaQuery.of(context).viewInsets.bottom < 100)showSecondaryButton(),]))),
+        
             ],
-          ),
-          
-        ));
-    
+          ))))));
   }
 
   Widget showErrorMessage() {

@@ -114,12 +114,13 @@ class _RestaurantPageState extends State<RestaurantPage>
                         ]
                       : [],
                   expanded: true,
+                  confirmBack: order.quantity > 0,
                   title: widget.restaurant.name,
                   tabs: menu.categories.map((x) => Tab(text: x.name)).toList(),
                   body: TabBarView(
                       children: menu.categories
                           .map((x) => Padding(
-                              padding: EdgeInsets.only(top: 0),
+                              padding: EdgeInsets.only(top: 8),
                               child: showItemList(x)))
                           .toList()),
                 ))));

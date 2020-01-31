@@ -116,7 +116,7 @@ class _CustomerOrderCardState extends State<CustomerOrderCard> with TickerProvid
                       child: expanded
                           ? Column(children: [
                               Padding(
-                                  padding: EdgeInsets.only(bottom: 16, right: 16),
+                                  padding: EdgeInsets.only(bottom: 0, right: 16),
                                   child:
                                       ProductList(
                                         widget.order.cart,

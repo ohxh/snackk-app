@@ -31,8 +31,13 @@ class AuthStatus {
     return NotLoggedIn();
   }
 }
-class NotDetermined extends AuthStatus {}
-class NotLoggedIn extends AuthStatus {}
+class NotDetermined extends AuthStatus {
+}
+class NotLoggedIn extends AuthStatus {
+  String error;
+
+  NotLoggedIn({this.error=""});
+}
 
 abstract class LoggedIn extends AuthStatus {
   String uid;
@@ -104,7 +109,7 @@ class Auth {
     print("finished try");
 
     } catch(e) {
-      status.value = NotLoggedIn();
+      status.value = NotLoggedIn(error: e.message);
     }
   }
 
@@ -120,8 +125,8 @@ class Auth {
     print("Finished try");
 
     } catch(e) {
-      print(e);
-      status.value = NotLoggedIn();
+      status.value = NotLoggedIn(error: e.message);
+
     }
   }
 

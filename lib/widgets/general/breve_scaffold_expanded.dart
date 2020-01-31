@@ -5,9 +5,12 @@ import 'package:flutter/services.dart';
 
 import 'package:breve/theme/theme.dart';
 
+import '../utils.dart';
+
 
 class BreveScaffoldExpanded extends StatefulWidget {
 
+  bool confirmBack;
   Widget body;
   Widget floatingActionButton;
   List<Widget> tabs;
@@ -21,7 +24,7 @@ class BreveScaffoldExpanded extends StatefulWidget {
   Widget logo;
 bool scrollable;
 
-  BreveScaffoldExpanded({@required this.body, @required this.title, this.floatingActionButton, this.tabs, this.expanded = false, this.drawer, this.brightness = Brightness.dark, this.scaffoldKey, this.trailing, this.tabController, this.logo, this.scrollable=true});
+  BreveScaffoldExpanded({@required this.body, @required this.title, this.floatingActionButton, this.tabs, this.expanded = false, this.drawer, this.brightness = Brightness.dark, this.scaffoldKey, this.trailing, this.tabController, this.logo, this.scrollable=true, this.confirmBack = false});
 
  @override
   State<StatefulWidget> createState() => new _BreveScaffoldExpandedState();
@@ -73,7 +76,11 @@ class _BreveScaffoldExpandedState extends State<BreveScaffoldExpanded> {
                           color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black,
                           
                         )) :IconButton(
-                          onPressed: (){Navigator.pop(context);},
+                          onPressed: (){
+                            widget.confirmBack ? 
+                            Dialogs.confirmPop(context, "Abandon order?", "You have items in your cart.") : 
+                            Navigator.pop(context);
+                            },
                             icon: Icon(
                           Icons.arrow_back,
                           color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black,

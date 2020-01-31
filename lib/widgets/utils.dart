@@ -82,4 +82,41 @@ class Dialogs {
             },
           );
   }
+
+  static void confirmPop(BuildContext context, String title, String message) {
+    Widget okButton = Padding(padding: EdgeInsets.only(right: 8, bottom: 8), child:CustomButton(
+      style: ButtonStyles.text,
+      title: "Ok",
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+          ));
+
+Widget cancelButton = Padding(padding: EdgeInsets.only(right: 16, bottom: 8), child:CustomButton(
+      style: ButtonStyles.text,
+      title: "Cancel",
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ));
+          // set up the AlertDialog
+          AlertDialog alert = AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              okButton,
+              cancelButton
+            ],
+          );
+
+          // show the dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+              // alert;
+            },
+          );
+  }
 }

@@ -1,25 +1,27 @@
+import 'package:breve/models/deserializable.dart';
+import 'package:breve/models/schedule/schedule.dart';
+import 'package:breve/widgets/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantSchedule {
-  List<TimeOfDay> openings = new List();
-  List<TimeOfDay> closings = new List();
+  Schedule schedule;
   List<DateTime> closures = new List();
   bool acceptingOrders;
-  
-  double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute/60.0;
 
-  RestaurantSchedule.fromJson(Map<dynamic,dynamic> json) {
-    json['hours'].forEach((v) => {
-      this.openings.add(timeFromJson(v["open"])),
-      this.closings.add(timeFromJson(v["close"]))});
+  double toDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
+
+  RestaurantSchedule.fromJson(Map<dynamic, dynamic> json) {
+    print(json);
+    this.schedule = Schedule.fromJson(json['hours']);
     json["closures"]?.forEach((v) {
-        closures.add(DateTime.fromMillisecondsSinceEpoch(v));
-      });
-    acceptingOrders = json["acceptingOrders"];
+      print(v);
+      closures.add(DateTime.fromMillisecondsSinceEpoch(v));
+    });
+    acceptingOrders = json["acceptingOrders"] ?? true;
   }
 
-  timeFromJson(Map<dynamic,dynamic> json) {
+  timeFromJson(Map<dynamic, dynamic> json) {
     return TimeOfDay(hour: json["hour"], minute: json["minute"]);
   }
 
@@ -28,40 +30,33 @@ class RestaurantSchedule {
   }
 
   bool isOpen(DateTime time) {
-    if(acceptingOrders == false) return false; //temporarily closed
-    if(closures.where((a) => isSameDay(a, time.subtract(Duration(hours: 3)))).length > 0) return false; //closure today
-    int businessDay = time.subtract(Duration(hours: 3)).weekday;
-    double now = toDouble(TimeOfDay(hour: time.hour, minute: time.minute));
-    double opening = toDouble(openings[businessDay -1]);
-    double closing = toDouble(closings[businessDay -1]);
-    //3 am divides the day so if the close is before 3 it must be on the next day
-    bool closeAfterMidnight = closing < toDouble(TimeOfDay(hour:3, minute: 0));
-    if(!closeAfterMidnight) {
-      return opening < now && now < closing;
-    }
-    else return 
-    (opening < now) || 
-    (now < closing);
+    if (acceptingOrders == false) return false; //temporarily closed
+    if (closures
+            .where((a) => isSameDay(a, time.subtract(Duration(hours: 3))))
+            .length >
+        0) return false; //closure today
+    return schedule.isOpen(time);
   }
+
+  DateTime rounded(DateTime raw, int increment) => DateTime(raw.year, raw.month,
+      raw.day, raw.hour, ((raw.minute) / increment).ceil() * increment);
 
   // #TODO: Incorporate temporary closures and acceptingOrders
-  TimeOfDay nextOpening() {
-    int businessDay = DateTime.now().subtract(Duration(hours: 3)).weekday-1;
-    DateTime time = DateTime.now();
-    double now = toDouble(TimeOfDay(hour: time.hour, minute: time.minute));
-    double three = toDouble(TimeOfDay(hour: 2, minute: 0));
-
-    return now < three ? openings[businessDay+1] : openings[businessDay];
+  String nextOpenTime() {
+    if (closures
+            .where((a) => isSameDay(a, DateTime.now().add(Duration(hours: 24))))
+            .length >
+        0) return "closed tomorrow";
+    return "open " +
+        TimeUtils.absoluteString(schedule.nextOpening(), newLine: false);
   }
 
-  TimeOfDay nextClosing() {
-    int businessDay = DateTime.now().subtract(Duration(hours: 3)).weekday-1;
-    return closings[businessDay];
+  DateTime nextClosing() {
+    return schedule.nextClosing();
   }
 }
 
-class Restaurant {
-  String id;
+class Restaurant extends Deserialized with ChangeNotifier {
   String image;
   String name;
   String address;
@@ -69,14 +64,47 @@ class Restaurant {
   String menuId;
   double taxPercent;
 
-  Restaurant.fromDocument(DocumentSnapshot doc) {
-    
-    id = doc.documentID;
-    name = doc["name"];
-    image = doc["image"];
-    address = doc["address"];
-    menuId = doc["menuId"];
-    taxPercent = doc["taxPercent"];
-    schedule = RestaurantSchedule.fromJson(doc['schedule']);
+  void _setData(Map data) {
+    name = data["name"];
+    image = data["image"];
+    address = data["address"];
+    menuId = data["menuId"];
+    taxPercent = data["taxPercent"];
+    schedule = RestaurantSchedule.fromJson(data['schedule']);
+    notifyListeners();
+  }
+
+  Restaurant.fromDocument(DocumentSnapshot doc, {bool manageOwnUpdates = false})
+      : super.fromDocument(doc) {
+    _setData(doc.data);
+    if (manageOwnUpdates) {
+      doc.reference.snapshots().listen((newDoc) => {
+            _setData(newDoc.data),
+            print("Updated self! fancy" +
+                newDoc.data["schedule"]["acceptingOrders"].toString())
+          });
+    }
+  }
+
+  void addClosure(DateTime d) {
+    ref.setData({
+      "schedule": {
+        "closures": FieldValue.arrayUnion([d.millisecondsSinceEpoch])
+      }
+    }, merge: true);
+  }
+
+  void removeClosure(DateTime d) {
+    ref.setData({
+      "schedule": {
+        "closures": FieldValue.arrayRemove([d.millisecondsSinceEpoch])
+      }
+    }, merge: true);
+  }
+
+  void toggleAcceptingOrders() {
+    ref.setData({
+      "schedule": {"acceptingOrders": !schedule.acceptingOrders}
+    }, merge: true);
   }
 }

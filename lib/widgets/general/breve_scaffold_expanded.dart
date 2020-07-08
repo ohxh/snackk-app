@@ -7,9 +7,7 @@ import 'package:breve/theme/theme.dart';
 
 import '../utils.dart';
 
-
 class BreveScaffoldExpanded extends StatefulWidget {
-
   bool confirmBack;
   Widget body;
   Widget floatingActionButton;
@@ -22,132 +20,160 @@ class BreveScaffoldExpanded extends StatefulWidget {
   GlobalKey<ScaffoldState> scaffoldKey;
   TabController tabController;
   Widget logo;
-bool scrollable;
+  bool scrollable;
 
-  BreveScaffoldExpanded({@required this.body, @required this.title, this.floatingActionButton, this.tabs, this.expanded = false, this.drawer, this.brightness = Brightness.dark, this.scaffoldKey, this.trailing, this.tabController, this.logo, this.scrollable=true, this.confirmBack = false});
+  BreveScaffoldExpanded(
+      {@required this.body,
+      @required this.title,
+      this.floatingActionButton,
+      this.tabs,
+      this.expanded = false,
+      this.drawer,
+      this.brightness = Brightness.dark,
+      this.scaffoldKey,
+      this.trailing,
+      this.tabController,
+      this.logo,
+      this.scrollable = true,
+      this.confirmBack = false});
 
- @override
+  @override
   State<StatefulWidget> createState() => new _BreveScaffoldExpandedState();
 }
 
 class _BreveScaffoldExpandedState extends State<BreveScaffoldExpanded> {
-  @override 
+  @override
   void initState() {
     super.initState();
-    if(widget.tabController != null)
-    widget.tabController.addListener(() => setState(() {
-    }));
+    if (widget.tabController != null)
+      widget.tabController.addListener(() => setState(() {}));
   }
+
   @override
   Widget build(BuildContext context) {
-  
     final double statusBarHeight = MediaQuery.of(context).padding.top;
-    
+
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 
-    if(widget.scaffoldKey == null) widget.scaffoldKey = new GlobalKey();
-    return 
-    
-    Stack(children: [Scaffold(
-      primary: false,
-      key: widget.key,
-      drawer: widget.drawer,
-      
+    if (widget.scaffoldKey == null) widget.scaffoldKey = new GlobalKey();
+    return Stack(children: [
+      Scaffold(
+        primary: false,
+        key: widget.key,
+        drawer: widget.drawer,
         body: NestedScrollView(
-          
-        physics: widget.scrollable ? AlwaysScrollableScrollPhysics() : NeverScrollableScrollPhysics(),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                    return <Widget>[
-                      SliverAppBar(
-                        brightness: widget.brightness,
-                        elevation: 0,
-                  backgroundColor: widget.brightness == Brightness.dark ? BreveColors.black : BreveColors.white,
-                        automaticallyImplyLeading: false,
-                        actions: widget.trailing,
-                        leading: widget.drawer!=null ? IconButton(
-                          onPressed: () {Scaffold.of(context).openDrawer();
-                          setState(() {
-                            
-                          }
-                        
-                          );},
-                            icon: Icon(
+          physics: widget.scrollable
+              ? AlwaysScrollableScrollPhysics()
+              : NeverScrollableScrollPhysics(),
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                brightness: widget.brightness,
+                elevation: 0,
+                backgroundColor: widget.brightness == Brightness.dark
+                    ? BreveColors.black
+                    : BreveColors.white,
+                automaticallyImplyLeading: false,
+                actions: widget.trailing,
+                leading: widget.drawer != null
+                    ? IconButton(
+                        onPressed: () {
+                          Scaffold.of(context).openDrawer();
+                          setState(() {});
+                        },
+                        icon: Icon(
                           Icons.menu,
-                          color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black,
-                          
-                        )) :IconButton(
-                          onPressed: (){
-                            widget.confirmBack ? 
-                            Dialogs.confirmPop(context, "Abandon order?", "You have items in your cart.") : 
-                            Navigator.pop(context);
-                            },
-                            icon: Icon(
+                          color: widget.brightness == Brightness.dark
+                              ? BreveColors.white
+                              : BreveColors.black,
+                        ))
+                    : IconButton(
+                        onPressed: () {
+                          widget.confirmBack
+                              ? Dialogs.confirmPop(context, "Abandon order?",
+                                  "You have items in your cart.")
+                              : Navigator.pop(context);
+                        },
+                        icon: Icon(
                           Icons.arrow_back,
-                          color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black,
+                          color: widget.brightness == Brightness.dark
+                              ? BreveColors.white
+                              : BreveColors.black,
                         )),
-                        centerTitle: true,
-                        
-                        title: widget.logo != null ? widget.logo : (widget.expanded ? Text("") : Text(widget.title, style: TextStyle(color: widget.brightness == Brightness.dark ? BreveColors.white : BreveColors.black, fontWeight: FontWeight.w500))),
-                        floating: false,
-                        pinned: !widget.expanded,
-                      ),
-                      if(widget.expanded) 
-                      SliverAppBar(
-                       backgroundColor: widget.brightness == Brightness.dark ? BreveColors.black : BreveColors.white,
-                        automaticallyImplyLeading: false,
-                        centerTitle: false,
-                        title: Padding(
-                            padding: EdgeInsets.only(left: 8, right: 8),
-                            child: 
-                           FittedBox(
+                centerTitle: true,
+                title: widget.logo != null
+                    ? widget.logo
+                    : (widget.expanded
+                        ? Text("")
+                        : Text(widget.title,
+                            style: TextStyle(
+                                color: widget.brightness == Brightness.dark
+                                    ? BreveColors.white
+                                    : BreveColors.black,
+                                fontWeight: FontWeight.w500))),
+                floating: false,
+                pinned: !widget.expanded,
+              ),
+              if (widget.expanded)
+                SliverAppBar(
+                  backgroundColor: widget.brightness == Brightness.dark
+                      ? BreveColors.black
+                      : BreveColors.white,
+                  automaticallyImplyLeading: false,
+                  centerTitle: false,
+                  title: Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: FittedBox(
                           fit: BoxFit.fitWidth,
-                          child:  Text(widget.title, style: widget.brightness == Brightness.dark ? TextStyles.whiteHeading : TextStyles.heading))),
-                        floating: false,
-                        pinned: false,
-                      ),
-                    if(widget.expanded) 
-                      SliverPersistentHeader(
-                        pinned: true,
-                        delegate: _SliverSpacerDelegate(
-                          
-                          minHeight: statusBarHeight,
-                          maxHeight: statusBarHeight,
-                          child: Container(
-                            color: widget.brightness == Brightness.dark ? BreveColors.black : BreveColors.white,
-                          ),
-                        ),
-                      ),
-                      if (widget.tabs != null && widget.tabs.length > 0) 
-                          SliverPersistentHeader(
-                              delegate: _SliverAppBarDelegate(
-          
-                                TabBar(
-                                  controller: widget.tabController,
-                        isScrollable: true,
-                        
-                        labelColor: BreveColors.black,
-                        indicator: UnderlineTabIndicator(
-                            borderSide: BorderSide(
-                                width: 2.0, color: BreveColors.black),
-                            insets:
-                                EdgeInsets.only(left: 16, right: 0, bottom: 12)),
-                        unselectedLabelColor: BreveColors.darkGrey,
-                        labelPadding: EdgeInsets.only(
-                            left: 16, right: 0, top: 8, bottom: 10),
-                        labelStyle: TextStyles.selectedTab,
-                        unselectedLabelStyle: TextStyles.unselectedTab,
-                        tabs: widget.tabs,
-                      ),
+                          child: Text(widget.title,
+                              style: widget.brightness == Brightness.dark
+                                  ? TextStyles.whiteHeading
+                                  : TextStyles.heading))),
+                  floating: false,
+                  pinned: false,
+                ),
+              if (widget.expanded)
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverSpacerDelegate(
+                    minHeight: statusBarHeight,
+                    maxHeight: statusBarHeight,
+                    child: Container(
+                      color: widget.brightness == Brightness.dark
+                          ? BreveColors.black
+                          : BreveColors.white,
                     ),
-                    pinned: true,
-                    
-                  ) 
-          ];
-        },
-        body: widget.body,
+                  ),
+                ),
+              if (widget.tabs != null && widget.tabs.length > 0)
+                SliverPersistentHeader(
+                  delegate: _SliverAppBarDelegate(
+                    TabBar(
+                      controller: widget.tabController,
+                      isScrollable: true,
+                      labelColor: BreveColors.black,
+                      indicator: UnderlineTabIndicator(
+                          borderSide:
+                              BorderSide(width: 2.0, color: BreveColors.black),
+                          insets:
+                              EdgeInsets.only(left: 16, right: 0, bottom: 12)),
+                      unselectedLabelColor: BreveColors.darkGrey,
+                      labelPadding: EdgeInsets.only(
+                          left: 16, right: 0, top: 8, bottom: 10),
+                      labelStyle: TextStyles.selectedTab,
+                      unselectedLabelStyle: TextStyles.unselectedTab,
+                      tabs: widget.tabs,
+                    ),
+                  ),
+                  pinned: true,
+                )
+            ];
+          },
+          body: widget.body,
+        ),
       ),
-    ),
-    if(widget.floatingActionButton != null) widget.floatingActionButton]);
+      if (widget.floatingActionButton != null) widget.floatingActionButton
+    ]);
   }
 }
 

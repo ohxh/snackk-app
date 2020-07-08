@@ -1,16 +1,19 @@
 name: breve
 description: Order ahead. Skip the line.
-version: 0.0.2
+version: 0.0.4+4
 homepage: http://getbreve.com
 
 dependencies:
   flutter:
     sdk: flutter
   provider: ^2.0.0
+  connectivity: ^0.4.6+2
+  flutter_ringtone_player: ^2.0.0
+  firestore_helpers: ^3.2.1+1
   firebase_auth: ^0.14.0+5
   firebase_database: ^3.0.7
   firebase_core: ^0.4.3+2
-  cloud_firestore: ^0.13.0+1
+  cloud_firestore: ^0.12.9+6
   stripe_payment: ^1.0.4
   uuid: ^2.0.2
   mask_text_input_formatter: ^1.0.6
@@ -23,7 +26,7 @@ dependencies:
 flutter_icons:
   android: true 
   ios: true
-  image_path: "assets/breveicon2.png"
+  image_path: "assets/icons/icon_1024.png"
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"

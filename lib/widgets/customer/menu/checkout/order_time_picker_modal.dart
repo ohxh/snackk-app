@@ -1,4 +1,5 @@
 import 'package:breve/models/restaurant.dart';
+import 'package:breve/widgets/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +10,11 @@ class TimePickerModal extends StatefulWidget {
   Function(DateTime) onChanged;
   bool showRelative;
   int increment;
-  TimePickerModal(this.restaurantSchedule, this.onChanged, {this.showRelative = true, this.increment = 5});
+  int value = 0;
+  DateTime startingTime;
+
+  TimePickerModal(this.restaurantSchedule, this.startingTime, this.onChanged,
+      {this.showRelative = true, this.increment = 5});
 
   @override
   _TimePickerModalState createState() => _TimePickerModalState();
@@ -18,41 +23,37 @@ class TimePickerModal extends StatefulWidget {
 class _TimePickerModalState extends State<TimePickerModal> {
   List<DateTime> times;
 
+  DateTime rounded(DateTime raw, int increment) => DateTime(raw.year, raw.month,
+      raw.day, raw.hour, ((raw.minute) / increment).ceil() * increment);
+
   @override
   void initState() {
+    super.initState();
     times = List();
-    //3 am is the cutoff time between days of operation, so 3 restaurantSchedule before now will always fall on the right day
-    int businessDay = DateTime.now().subtract(Duration(hours: 3)).weekday;
-    // days are 1-indexed, lists are 0-indexed
-    TimeOfDay openingToday = widget.restaurantSchedule.openings[businessDay - 1];
-    TimeOfDay closingToday = widget.restaurantSchedule.closings[businessDay - 1];
 
-    DateTime start = widget.showRelative ? DateTime.now() : DateTime(2000, 1, 1, openingToday.hour, openingToday.minute);
+    DateTime inc = rounded(DateTime.now(), widget.increment);
 
-    DateTime rounded = DateTime(start.year, start.month, start.day, start.hour,
-        ((start.minute) / widget.increment).ceil() * widget.increment);
+    for (int i = 0; i < (24 * (60 / widget.increment)); i++) {
+      if (widget.restaurantSchedule.isOpen(inc)) {
+        if (widget.startingTime != null &&
+            rounded(widget.startingTime, widget.increment) == inc) {
+          widget.onChanged(inc);
+          widget.value = times.length;
+        }
+        print(inc.toIso8601String() + " is open");
+        times.add(inc);
+      } else
+        print(inc.toIso8601String() + " is closed");
 
-    for (int i = 0; i < (24 * (60/widget.increment)); i++) {
-      rounded = rounded.add(Duration(minutes: widget.increment));
-      //if it's open
-      if (widget.restaurantSchedule.isOpen(rounded)) {
-        times.add(rounded);
-      }
-      ;
+      inc = inc.add(Duration(minutes: widget.increment));
     }
 
-    DateTime(start.year, start.month, start.day, start.hour,
-        (start.minute / 5).floor() * widget.increment);
-  }
-
-  String timeString(DateTime time) {
-    return (time.difference(DateTime.now()).inMinutes < 2 && widget.showRelative
-        ? "ASAP"
-        : DateFormat.jm().format(time));
+    if (widget.startingTime == null && times.length > 0)
+      widget.onChanged(times[0]);
   }
 
   String durationString(DateTime time) {
-    if (time.difference(DateTime.now()).inMinutes < 2) return "";
+    if (time.difference(DateTime.now()).inMinutes < 4) return "";
     return ((time.difference(DateTime.now()).inHours < 2
         ? " (" +
             time.difference(DateTime.now()).inMinutes.toString() +
@@ -67,6 +68,8 @@ class _TimePickerModalState extends State<TimePickerModal> {
     return Container(
       height: 300,
       child: CupertinoPicker(
+        scrollController:
+            FixedExtentScrollController(initialItem: widget.value),
         backgroundColor: Colors.white,
         useMagnifier: true,
         magnification: 1.2,
@@ -76,7 +79,10 @@ class _TimePickerModalState extends State<TimePickerModal> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                       Spacer(),
-                      Text(timeString(t), style: TextStyles.label),
+                      Text(
+                          TimeUtils.absoluteString(t,
+                              newLine: false, overrideWithAsap: true),
+                          style: TextStyles.label),
                       if (widget.showRelative)
                         Text(" " + durationString(t),
                             style: TextStyles.paragraph),
@@ -84,7 +90,10 @@ class _TimePickerModalState extends State<TimePickerModal> {
                     ])))
             .toList(),
         itemExtent: 46,
-        onSelectedItemChanged: (i) => widget.onChanged(times[i]),
+        onSelectedItemChanged: (i) {
+          widget.onChanged(times[i]);
+          widget.value = i;
+        },
       ),
     );
   }

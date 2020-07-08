@@ -1,17 +1,21 @@
+import 'package:breve/models/schedule/schedule.dart';
+
 import 'attribute.dart';
 import 'product.dart';
 
 class Category {
-
+  Schedule schedule;
   List<GenericProduct> products;
   String name;
 
-  Category.fromJSON(String k, dynamic v, {List<Attribute> allAttributes}) {
-    name = k;
+  Category.fromJSON(dynamic v, {List<Attribute> allAttributes}) {
+    name = v["name"];
+    schedule = Schedule.fromJson(v["schedule"]);
     products = List();
-    print("vvvv v" + v.toString());
-    v?.forEach((product) => {
-      products.add(GenericProduct.fromJSON(product, allAttributes: allAttributes))      });
+    v["products"]?.forEach((product) => {
+          products.add(GenericProduct.fromJSON(product,
+              allAttributes: allAttributes, schedule: schedule))
+        });
   }
 
   String toString() => "\n    " + name + ":\n" + products.toString();

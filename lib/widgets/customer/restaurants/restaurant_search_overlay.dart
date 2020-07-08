@@ -22,9 +22,7 @@ class _RestaurantSearchOverlayState extends State<RestaurantSearchOverlay> {
   @override
   void initState() { 
     super.initState();
-    print("init");
     _filter.addListener(() {
-       print(_filter.text);
       if (_filter.text.isEmpty) {
         setState(() {
           _searchText = "";

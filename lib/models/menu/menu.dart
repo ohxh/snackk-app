@@ -8,17 +8,19 @@ class Menu {
   List<Category> categories;
 
   Menu.fromDocument(DocumentSnapshot doc) {
-    print("MENU : " + doc.data.toString());
     attributes = List();
-      doc['attributes']?.forEach((atr) => attributes.add(Attribute.fromJSON(atr)));
+    doc['attributes']
+        ?.forEach((atr) => attributes.add(Attribute.fromJSON(atr)));
     categories = List();
     doc['categories']?.forEach((i) {
-      String k = i["name"];
-      var v = i["products"] ?? [];
-      categories.add(Category.fromJSON(k, v, allAttributes: this.attributes));      });
+      categories.add(Category.fromJSON(i, allAttributes: this.attributes));
+    });
   }
 
   @override
-  String toString() => "Menu:\n Attributes: " + attributes.toString() + "\n Categories: " + categories.toString();
-  
+  String toString() =>
+      "Menu:\n Attributes: " +
+      attributes.toString() +
+      "\n Categories: " +
+      categories.toString();
 }

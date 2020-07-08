@@ -1,4 +1,3 @@
-
 import 'package:breve/services/authentication.dart';
 import 'package:breve/services/database.dart';
 import 'package:breve/theme/theme.dart';
@@ -32,6 +31,8 @@ class CreditCardModalState extends State<CreditCardModal> {
   String cvvCode = '';
   bool isCvvFocused = false;
 
+  bool loading = false;
+
   final FirebaseDatabase _database = FirebaseDatabase.instance;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -41,36 +42,43 @@ class CreditCardModalState extends State<CreditCardModal> {
   CreditCard getFormData() => CreditCard(
         number: cardNumber,
         name: cardHolderName,
-
         expMonth: int.parse(expiryDate.substring(0, 2)),
         expYear: int.parse(expiryDate.substring(3, 5)),
         cvc: cvvCode,
       );
 
   void tryPushCard(CreditCard card) async {
+    setState(() {
+      loading = true;
+    });
     StripePayment.createTokenWithCard(card).then((token) {
-      CustomerDatabase.instance.sourcesRef.add({"_push":{"tokenId": token.tokenId}, "_isPushing":true, "_isError": false});
-      print("added");
-          Navigator.pop(context);
+      CustomerDatabase.instance.sourcesRef.add({
+        "_push": {"tokenId": token.tokenId},
+        "_isPushing": true,
+        "_isError": false
+      });
+      Navigator.pop(context);
     }).catchError(setError);
   }
 
   void setError(dynamic error) {
+    setState(() {
+      loading = false;
+    });
     print(error.toString());
-    Dialogs.showErrorDialog(context, "Failed to add card", error.message ?? "Please check your information and try again.");
+    Dialogs.showErrorDialog(context, "Failed to add card",
+        error.message ?? "Please check your information and try again.");
   }
 
   @override
   Widget build(BuildContext context) {
-
-        return Scaffold(
-          key: _scaffoldKey,
-          appBar: new AppBar(
-            brightness: Brightness.light,
-            backgroundColor: Colors.transparent,
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        brightness: Brightness.light,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
-        title: Text("Add Card",
-            style: TextStyles.largeLabel),
+        title: Text("Add Card", style: TextStyles.largeLabel),
         elevation: 0.0,
         leading: new IconButton(
           onPressed: () => Navigator.pop(context),
@@ -79,7 +87,7 @@ class CreditCardModalState extends State<CreditCardModal> {
         ),
         actions: [
           new IconButton(
-            onPressed: () => tryPushCard(getFormData()),
+            onPressed: loading ? null : () => tryPushCard(getFormData()),
             icon: Icon(Icons.check, color: Colors.black),
             color: Colors.black,
           ),
@@ -91,34 +99,40 @@ class CreditCardModalState extends State<CreditCardModal> {
             padding: EdgeInsets.only(left: 16, right: 16),
             child: Column(
               children: <Widget>[
-               
-               if(MediaQuery.of(context).size.height > 800)
-                ClipRect(
-  child: Align(
-    alignment: Alignment.center,
-    heightFactor: 0.7,
-    child: Transform.scale(
-                    scale: 0.7,
-                    child: BreveCreditCard(
-                      cardNumber: cardNumber,
-                      expiryDate: expiryDate,
-                      cardHolderName: cardHolderName,
-                      cvvCode: cvvCode,
-                      showBackView: isCvvFocused,
+                if (MediaQuery.of(context).size.height > 800)
+                  ClipRect(
+                    child: Align(
+                      alignment: Alignment.center,
+                      heightFactor: 0.7,
+                      child: Transform.scale(
+                        scale: 0.7,
+                        child: BreveCreditCard(
+                          cardNumber: cardNumber,
+                          expiryDate: expiryDate,
+                          cardHolderName: cardHolderName,
+                          cvvCode: cvvCode,
+                          showBackView: isCvvFocused,
+                        ),
+                      ),
                     ),
                   ),
-  ),
-),
-                
                 Expanded(
                   child: SingleChildScrollView(
-                    child: Column(children: [
-                 BreveCreditCardForm(
+                      child: Column(children: [
+                    BreveCreditCardForm(
                       onEditingComplete: () => tryPushCard(getFormData()),
                       onCreditCardModelChange: onCreditCardModelChange,
                     ),
-                    Padding(padding: EdgeInsets.only(top: 32, left: 16, right: 16), child: CustomButton(title: "Add card", icon: Icons.arrow_forward,   onPressed: () => tryPushCard(getFormData()),))])
-                  ),
+                    Padding(
+                        padding: EdgeInsets.only(top: 32, left: 16, right: 16),
+                        child: CustomButton(
+                          isGradient: true,
+                          isLoading: loading,
+                          title: "Add card",
+                          icon: Icons.arrow_forward,
+                          onPressed: () => tryPushCard(getFormData()),
+                        ))
+                  ])),
                 )
               ],
             )),

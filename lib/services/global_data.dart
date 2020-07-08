@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GlobalData {
-
   static GlobalData instance;
- 
+
+  List<int> reloadSizes;
+
   String legalTitle;
   String legal;
 
@@ -31,30 +32,33 @@ class GlobalData {
     GlobalData v = GlobalData();
 
     CollectionReference global = Firestore.instance.collection("global");
-    DocumentSnapshot data = await global.document("strings").get();
-    if(data.data == null) return;
-    v.legalTitle = data["legalTitle"];
-    v.legal = data["legal"];
+    DocumentSnapshot strings = await global.document("strings").get();
+    DocumentSnapshot stripe = await global.document("stripe").get();
 
-    v.serviceFeeTitle = data["serviceFeeTitle"];
-    v.serviceFeeDescription = data["serviceFeeDescription"];
+    if (strings.data == null) return;
+    v.legalTitle = strings["legalTitle"];
+    v.legal = strings["legal"];
 
-    v.aboutTitle = data["aboutTitle"];
-    v.about = data["about"];
+    v.serviceFeeTitle = strings["serviceFeeTitle"];
+    v.serviceFeeDescription = strings["serviceFeeDescription"];
 
-    v.cardFee = data["cardFee"];
+    v.aboutTitle = strings["aboutTitle"];
+    v.about = strings["about"];
 
-    v.supportTitle = data["supportTitle"];
-    v.support = data["support"];
+    v.cardFee = stripe["userCardFee"];
+    v.reloadSizes = stripe["reloadSizes"].cast<int>();
 
-    v.confirmTemporaryCloseTitle = data["confirmTemporaryCloseTitle"];
-    v.confirmTemporaryClose = data["confirmTemporaryClose"];
-    
-    v.ownerTitle = data ["ownerTitle"];
-    v.ownerString = data["ownerString"];
+    v.supportTitle = strings["supportTitle"];
+    v.support = strings["support"];
 
-    v.suspendedTitle = data ["suspendedTitle"];
-    v.suspendedString = data["suspendedString"];
+    v.confirmTemporaryCloseTitle = strings["confirmTemporaryCloseTitle"];
+    v.confirmTemporaryClose = strings["confirmTemporaryClose"];
+
+    v.ownerTitle = strings["ownerTitle"];
+    v.ownerString = strings["ownerString"];
+
+    v.suspendedTitle = strings["suspendedTitle"];
+    v.suspendedString = strings["suspendedString"];
 
     instance = v;
     return;

@@ -7,9 +7,8 @@ class Payment {
   static void init() async{
 
     var global = await Firestore.instance.document("global/stripe").get();
-    print(global.data);
     var pk = global["publishableKey"];
-    print("PPPP" + pk);
+    print("PUBLISHABLE: " + pk);
     StripePayment.setOptions(StripeOptions(
         publishableKey: pk,
         merchantId: pk,

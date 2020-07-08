@@ -67,15 +67,25 @@ class BreveTheme {
 }
 
 class BreveColors {
+  static const Gradient brandGradient = LinearGradient(
+      begin: Alignment.topRight,
+      end: Alignment.bottomCenter,
+      colors: [
+        Color(0xFFaa00FF),
+        Color(0xFF6600FF),
+      ]);
+  static const Color brandColor = Color(0xFF6600FF);
   static const Color white = Color(0xFFFFFFFF);
   static const Color black = Color(0xFF000000);
-  static const Color blue = Color(0xFF266EF1);
-  static const Color red = Color(0xFFF25138);
-  static const Color lightGrey = Color(0xFFEFEFEF);
+  static const Color ready = Color(0xFFDD00FF);
+  static const Color inProgress = Color(0xFF6600FF);
+  static const Color error = Color(0xFFF25138);
+  static const Color lightGrey = Color(0xFFBFBFBF);
   static const Color darkGrey = Color(0xFF9D9D9D);
 }
 
 class Spacing {
+  static const EdgeInsets none = EdgeInsets.all(0);
   static const EdgeInsets tiny = EdgeInsets.all(4);
   static const EdgeInsets small = EdgeInsets.all(8);
   static const EdgeInsets standard = EdgeInsets.all(16);
@@ -91,9 +101,8 @@ class Shadows {
 }
 
 class Shapes {
-  static ShapeBorder roundedRectangle =
-      RoundedRectangleBorder(borderRadius: BorderRadius.circular(8), side: BorderSide(width: 1.5));
-
+  static ShapeBorder roundedRectangle = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8), side: BorderSide(width: 1.5));
 
   static BoxDecoration card = BoxDecoration(
       color: BreveColors.white,
@@ -103,9 +112,10 @@ class Shapes {
       color: BreveColors.white,
       borderRadius: BorderRadius.circular(16),
       boxShadow: [Shadows.medium]);
-    static BoxDecoration largeTopCard = BoxDecoration(
+  static BoxDecoration largeTopCard = BoxDecoration(
       color: BreveColors.white,
-      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
+      borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
       boxShadow: [Shadows.medium]);
   static BoxDecoration badge = BoxDecoration(
       color: BreveColors.white,
@@ -115,7 +125,8 @@ class Shapes {
 
 class TextStyles {
   static const error = TextStyle(
-      color: BreveColors.red, fontSize: 18, fontWeight: FontWeight.w500);
+      color: BreveColors.error, fontSize: 18, fontWeight: FontWeight.w500);
+  static const smallError = TextStyle(color: BreveColors.error);
   static const selectedTab =
       TextStyle(fontSize: 20, fontWeight: FontWeight.w500);
   static const unselectedTab =
@@ -140,6 +151,11 @@ class TextStyles {
       fontWeight: FontWeight.w500,
       color: BreveColors.darkGrey,
       fontFamily: 'Montserrat');
+  static const largeLabelWhite = TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w500,
+      color: BreveColors.white,
+      fontFamily: 'Montserrat');
   static const heading = TextStyle(
       fontSize: 40,
       fontWeight: FontWeight.w500,
@@ -150,15 +166,14 @@ class TextStyles {
       fontWeight: FontWeight.w500,
       color: BreveColors.black,
       fontFamily: 'Montserrat');
-  static const badge = TextStyle(fontSize: 13,
-      fontWeight: FontWeight.w700, fontFamily: 'Montserrat');
+  static const badge = TextStyle(
+      fontSize: 13, fontWeight: FontWeight.w700, fontFamily: 'Montserrat');
   static TextStyle whiteParagraph =
       paragraph.copyWith(color: BreveColors.white);
   static TextStyle whiteLabel = label.copyWith(color: BreveColors.white);
   static TextStyle whiteHeading = heading.copyWith(color: BreveColors.white);
   static TextStyle whiteDisplay = display.copyWith(color: BreveColors.white);
 }
-
 
 class NoOverscroll extends ScrollBehavior {
   @override

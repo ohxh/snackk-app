@@ -14,91 +14,96 @@ class OrderOptionsMenu extends StatefulWidget {
 }
 
 class _OrderOptionsMenuState extends State<OrderOptionsMenu> {
- 
   initState() {
     super.initState();
     choices = [
-    MenuAction("Contact Customer", (order) => showContactDialog(order)),
-    MenuAction("Cancel and refund", (order) => showCancelDialog(order))
-  ];
+      MenuAction("Contact Customer", (order) => showContactDialog(order)),
+      MenuAction("Cancel and refund", (order) => showCancelDialog(order))
+    ];
   }
 
   List<MenuAction> choices;
 
   showContactDialog(RestaurantOrder order) {
     Widget okButton = FlatButton(
-            child: Text("OK", style:TextStyle(color: BreveColors.black)),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          );
+      child: Text("OK", style: TextStyle(color: BreveColors.black)),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
 
-          // set up the AlertDialog
-          AlertDialog alert = AlertDialog(
-            title: Text(order.customerName == null ? "" : order.customerName),
-            content: Text("Phone:  " + (order.customerPhone == null ? "" : order.customerPhone)),
-            actions: [
-              okButton,
-            ],
-          );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(order.customerName == null ? "" : order.customerName),
+      content: Text("Phone:  " +
+          (order.customerPhone == null ? "" : order.customerPhone)),
+      actions: [
+        okButton,
+      ],
+    );
 
-          // show the dialog
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return alert;
-            },
-          );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   showCancelDialog(RestaurantOrder order) {
     TextEditingController controller = new TextEditingController();
-    Widget cancelButton = CustomButton(
-      style: ButtonStyles.filled,
-            title: "Cancel and refund",
-            icon: Icons.close,
-            onPressed: () {   
-              order.refund(controller.text);
-              Navigator.pop(context);
-            },
-          );
+    Widget cancelButton = Padding(
+        padding: EdgeInsets.all(16),
+        child: CustomButton(
+          style: ButtonStyles.text,
+          title: "Cancel and refund",
+          icon: Icons.arrow_forward,
+          onPressed: () {
+            order.refund(controller.text);
+            Navigator.pop(context);
+          },
+        ));
 
-          // set up the AlertDialog
-          AlertDialog alert = AlertDialog(
-            title: Text("Cancellation reason:"),
-            content: TextField(controller: controller,),
-            actions: [
-              cancelButton,
-            ],
-          );
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Cancellation reason:"),
+      content: TextField(
+        controller: controller,
+      ),
+      actions: [
+        cancelButton,
+      ],
+    );
 
-          // show the dialog
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return alert;
-            },
-          );
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
-  doAction(MenuAction) {MenuAction.action(widget.order);}//MenuAction.action();
+  doAction(MenuAction) {
+    MenuAction.action(widget.order);
+  } //MenuAction.action();
 
-   @override
+  @override
   Widget build(BuildContext context) {
-    return 
-PopupMenuButton<MenuAction>(
-  icon: Icon(Icons.more_vert),
-            elevation: 3,
-            onSelected: doAction,
-            itemBuilder: (BuildContext context) {
-              return choices.map((MenuAction choice) {
-                return PopupMenuItem<MenuAction>(
-                  value: choice,
-                  child: Text(choice.name),
-                );
-              }).toList();
-            },
+    return PopupMenuButton<MenuAction>(
+      icon: Icon(Icons.more_vert),
+      elevation: 3,
+      onSelected: doAction,
+      itemBuilder: (BuildContext context) {
+        return choices.map((MenuAction choice) {
+          return PopupMenuItem<MenuAction>(
+            value: choice,
+            child: Text(choice.name),
           );
+        }).toList();
+      },
+    );
   }
 }
 

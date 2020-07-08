@@ -22,18 +22,28 @@ class CustomerOrderCard extends StatefulWidget {
   _CustomerOrderCardState createState() => _CustomerOrderCardState();
 }
 
-class _CustomerOrderCardState extends State<CustomerOrderCard> with TickerProviderStateMixin {
+class _CustomerOrderCardState extends State<CustomerOrderCard>
+    with TickerProviderStateMixin {
   bool expanded = false;
 
   Future<Restaurant> getRestaurant() async {
-    DocumentSnapshot doc1 = await Firestore.instance.collection("restaurants").document(widget.order.restaurantId).get();
+    DocumentSnapshot doc1 = await Firestore.instance
+        .collection("restaurants")
+        .document(widget.order.restaurantId)
+        .get();
     return Restaurant.fromDocument(doc1);
   }
 
-   Future<Menu> getMenu() async {
-    DocumentSnapshot doc1 = await Firestore.instance.collection("restaurants").document(widget.order.restaurantId).get();
+  Future<Menu> getMenu() async {
+    DocumentSnapshot doc1 = await Firestore.instance
+        .collection("restaurants")
+        .document(widget.order.restaurantId)
+        .get();
     var restaurant = Restaurant.fromDocument(doc1);
-    DocumentSnapshot doc2 = await Firestore.instance.collection("menus").document(restaurant.menuId).get();
+    DocumentSnapshot doc2 = await Firestore.instance
+        .collection("menus")
+        .document(restaurant.menuId)
+        .get();
     return Menu.fromDocument(doc2);
   }
 
@@ -45,115 +55,105 @@ class _CustomerOrderCardState extends State<CustomerOrderCard> with TickerProvid
           Expanded(
             child: BreveCard(
                 child: Column(children: [
-                  Column(children: [
-                    GestureDetector(
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Container(
-                          color: Colors.white,
-                          child: Row(
-                            children: [
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  
-                                  children: [
-                                    Wrap(
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.start,
-                                        children: [
-                                          Padding(
-                                              padding: EdgeInsets.only(top: 0),
-                                              child: Text(
-                                                  TimeUtils.absoluteString(
-                                                      widget.order.timeDue),
-                                                  style: TextStyles.label)),
-                                          OrderStatusIndicator(
-                                              widget.order)
-                                        ]),
-                                    SizedBox(height: 6),
-                                    Text(
-                                        /*widget.order.cafe.name*/ (widget
-                                                .order.quantity
-                                                .toString() +
-                                            " item" +
-                                            (widget
-                                                .order.quantity >
-                                                    1
-                                                ? "s"
-                                                : "") +
-                                            " - " +
-                                            widget.order.restaurantName),
-                                        softWrap: true,
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16)),
-                                  ]),
-                              Spacer(),
-                              Icon(
-                                    expanded
-                                        ? Icons.expand_less
-                                        : Icons.expand_more,
-                                    color: Colors.black),
-                              SizedBox(width:8)
-                            ],
-                          ),
-                        ),
+              Column(children: [
+                GestureDetector(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Container(
+                      color: Colors.white,
+                      child: Row(
+                        children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Wrap(
+                                    crossAxisAlignment:
+                                        WrapCrossAlignment.start,
+                                    children: [
+                                      Padding(
+                                          padding: EdgeInsets.only(top: 0),
+                                          child: Text(
+                                              TimeUtils.absoluteString(
+                                                  widget.order.timeDue),
+                                              style: TextStyles.label)),
+                                      OrderStatusIndicator(widget.order)
+                                    ]),
+                                SizedBox(height: 6),
+                                Text(
+                                    /*widget.order.cafe.name*/ (widget
+                                            .order.quantity
+                                            .toString() +
+                                        " item" +
+                                        (widget.order.quantity > 1 ? "s" : "") +
+                                        " - " +
+                                        widget.order.restaurantName),
+                                    softWrap: true,
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 16)),
+                              ]),
+                          Spacer(),
+                          Icon(expanded ? Icons.expand_less : Icons.expand_more,
+                              color: Colors.black),
+                          SizedBox(width: 8)
+                        ],
                       ),
-                      onTap: () {
-                        setState(() {
-                          expanded = !expanded;
-                        });
-                      },
                     ),
-                  ]),
-                  AnimatedSize(
-                    vsync: this,
-                    duration: Duration(milliseconds: 150),
-                    curve: Curves.fastOutSlowIn,
-                      child: Container(
-                      child: expanded
-                          ? Column(children: [
+                  ),
+                  onTap: () {
+                    setState(() {
+                      expanded = !expanded;
+                    });
+                  },
+                ),
+              ]),
+              AnimatedSize(
+                vsync: this,
+                duration: Duration(milliseconds: 150),
+                curve: Curves.fastOutSlowIn,
+                child: Container(
+                    child: expanded
+                        ? Column(children: [
+                            Padding(
+                                padding: EdgeInsets.only(bottom: 8, right: 16),
+                                child: ProductList(
+                                  widget.order.cart,
+                                  showPrice: false,
+                                )),
+                            if (widget.order.status == OrderStatus.fulfilled)
                               Padding(
-                                  padding: EdgeInsets.only(bottom: 0, right: 16),
-                                  child:
-                                      ProductList(
-                                        widget.order.cart,
-                                        showPrice: true,
-                              
-                                  )),
-                              if (widget.order.status == OrderStatus.fulfilled)
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: 12, left: 16, right: 16),
-                                    child: Row(children: [
-                                      Expanded(
-                                          child: CustomButton(
-                                        style: ButtonStyles.filled,
-                                  
-                                        title: "Order Again",
-                                        onPressed: () async {
-                                          var menu = await getMenu();
-                                          var res = await getRestaurant();
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder:
-                                                      (BuildContext context) =>
-                                                          CheckoutPage(
-                                                             
-                                                              EditableOrder.fromCached(widget.order, menu: menu,
-                                                              restaurant: res))));
-                                        },
-                                      ))
-                                    ]))
-                              else
-                                SizedBox(),
-                            ])
-                          : null
-                          ),
-            )])),
+                                  padding: EdgeInsets.only(
+                                      bottom: 12, left: 16, right: 16),
+                                  child: Row(children: [
+                                    Expanded(
+                                        child: CustomButton(
+                                      isGradient: true,
+                                      style: ButtonStyles.filled,
+                                      title: "Order Again",
+                                      onPressed: () async {
+                                        var menu = await getMenu();
+                                        var res = await getRestaurant();
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    CheckoutPage(EditableOrder
+                                                        .fromCached(
+                                                            widget.order,
+                                                            menu: menu,
+                                                            restaurant: res))));
+                                      },
+                                    ))
+                                  ]))
+                            else
+                              SizedBox(),
+                          ])
+                        : null),
+              )
+            ])),
           )
         ]));
   }

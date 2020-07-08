@@ -36,11 +36,12 @@ class BreveScaffold extends StatefulWidget {
       this.trailing,
       this.tabController,
       this.logo,
-      this.scrollable = true, 
-      this.centerTitle=false, this.color});
+      this.scrollable = true,
+      this.centerTitle = false,
+      this.color});
 
   BreveScaffold.withTabs(
-      {@required Map<dynamic,Widget> content,
+      {@required Map<dynamic, Widget> content,
       @required this.title,
       this.floatingActionButton,
       this.expanded = false,
@@ -48,14 +49,20 @@ class BreveScaffold extends StatefulWidget {
       this.brightness = Brightness.dark,
       this.scaffoldKey,
       this.trailing,
+      this.tabController,
       this.logo,
-      this.scrollable = true, 
-      this.centerTitle=false, this.color}) {
-        List<Widget> parsed = content.keys.map((t) => t = t is Widget ? t : Tab(text: t)).toList();
-        this.body = TabBarView(children: content.values.toList());
-        this.tabs = parsed.toList();
-      }
-
+      this.scrollable = true,
+      this.centerTitle = false,
+      this.color}) {
+    List<Widget> parsed =
+        content.keys.map((t) => t = t is Widget ? t : Tab(text: t)).toList();
+    this.body = TabBarView(
+      children: content.values.toList(),
+      controller: tabController,
+    );
+    this.tabs = parsed.toList();
+    print(tabController);
+  }
 
   @override
   State<StatefulWidget> createState() => new _BreveScaffoldState();
@@ -64,6 +71,8 @@ class BreveScaffold extends StatefulWidget {
 class _BreveScaffoldState extends State<BreveScaffold> {
   @override
   void initState() {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarColor: Colors.white));
     super.initState();
     if (widget.tabController != null)
       widget.tabController.addListener(() => setState(() {}));
@@ -71,6 +80,7 @@ class _BreveScaffoldState extends State<BreveScaffold> {
 
   @override
   Widget build(BuildContext context) {
+    print(WidgetsBinding.instance.window.padding);
     if (widget.scaffoldKey == null) widget.scaffoldKey = new GlobalKey();
     return Stack(children: [
       Scaffold(
@@ -79,8 +89,9 @@ class _BreveScaffoldState extends State<BreveScaffold> {
           drawer: widget.drawer,
           body: widget.body,
           appBar: PreferredSize(
-            preferredSize: widget.tabs != null ? Size.fromHeight(WidgetsBinding.instance.window.padding.top + 78) : Size.fromHeight(WidgetsBinding.instance.window.padding.top + 24),
-            
+            preferredSize: Size.fromHeight(
+                MediaQuery.of(context).padding.bottom +
+                    (widget.tabs != null ? 136.0 : 80)),
             child: AppBar(
               brightness: widget.brightness,
               elevation: 0,
@@ -89,32 +100,33 @@ class _BreveScaffoldState extends State<BreveScaffold> {
                   : BreveColors.white,
               automaticallyImplyLeading: false,
               actions: widget.trailing,
-              leading: Builder(builder: (context) => widget.drawer != null
-                  ? IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                        setState(() {});
-                      },
-                      icon: Icon(
-                        Icons.menu,
-                        color: 
-                        widget.color ?? (
-                        widget.brightness == Brightness.dark
-                            ? BreveColors.white
-                            : BreveColors.black),
-                      ))
-                  : IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: widget.brightness == Brightness.dark
-                            ? BreveColors.white
-                            : BreveColors.black,
-                      ))),
+              leading: Builder(
+                  builder: (context) => widget.drawer != null
+                      ? IconButton(
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                            setState(() {});
+                          },
+                          icon: Icon(
+                            Icons.menu,
+                            color: widget.color ??
+                                (widget.brightness == Brightness.dark
+                                    ? BreveColors.white
+                                    : BreveColors.black),
+                          ))
+                      : IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: widget.brightness == Brightness.dark
+                                ? BreveColors.white
+                                : BreveColors.black,
+                          ))),
               centerTitle: widget.centerTitle,
-              title: widget.logo ?? (widget.expanded
+              title: widget.logo ??
+                  (widget.expanded
                       ? Text("")
                       : Text(widget.title,
                           style: TextStyle(
@@ -122,32 +134,30 @@ class _BreveScaffoldState extends State<BreveScaffold> {
                                   ? BreveColors.white
                                   : BreveColors.black,
                               fontWeight: FontWeight.w500))),
-              bottom: 
-              widget.tabs != null ? 
-              PreferredSize(
-                preferredSize: Size.fromHeight(20),
-                child:
-              Container(
-                padding: EdgeInsets.only(left: 8),
-      alignment: Alignment.topLeft,
-      color: Colors.white,
-      child:
-              TabBar(
-                controller: widget.tabController,
-                isScrollable: true,
-                
-                labelColor: BreveColors.black,
-                indicator: UnderlineTabIndicator(
-                    borderSide:
-                        BorderSide(width: 2.0, color: BreveColors.black),
-                    insets: EdgeInsets.only(left: 10, right: 10, bottom: 12)),
-                unselectedLabelColor: BreveColors.darkGrey,
-                labelPadding:
-                    EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 7),
-                labelStyle: TextStyles.selectedTab,
-                unselectedLabelStyle: TextStyles.unselectedTab,
-                tabs: widget.tabs,
-              ))) : null,
+              bottom: widget.tabs != null
+                  ? PreferredSize(
+                      preferredSize: Size.fromHeight(20),
+                      child: Container(
+                          padding: EdgeInsets.only(left: 8),
+                          alignment: Alignment.topLeft,
+                          color: Colors.white,
+                          child: TabBar(
+                            controller: widget.tabController,
+                            isScrollable: true,
+                            labelColor: BreveColors.black,
+                            indicator: UnderlineTabIndicator(
+                                borderSide: BorderSide(
+                                    width: 2.0, color: BreveColors.black),
+                                insets: EdgeInsets.only(
+                                    left: 10, right: 10, bottom: 12)),
+                            unselectedLabelColor: BreveColors.darkGrey,
+                            labelPadding: EdgeInsets.only(
+                                left: 10, right: 10, top: 6, bottom: 7),
+                            labelStyle: TextStyles.selectedTab,
+                            unselectedLabelStyle: TextStyles.unselectedTab,
+                            tabs: widget.tabs,
+                          )))
+                  : null,
             ),
           )),
       if (widget.floatingActionButton != null) widget.floatingActionButton

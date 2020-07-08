@@ -15,7 +15,7 @@ class Attribute {
     max = MaySegmentOnSize.fromJSON(json['max']) ?? SingleValue(0),
     options = List() 
     {
-      print(json['options'].runtimeType);
+  
       json['options'].forEach((i) {
         var k = i["name"];
         var v = i["price"];
@@ -42,7 +42,6 @@ class Attribute {
       }
       else if(json is Map) { 
         String name = json.keys.first;
-        print(json[name]);
         var defaultJSON = json[name];
         List<Option> defaults = new List();
       
@@ -53,7 +52,6 @@ class Attribute {
         }
         if(defaultJSON is List) {
           defaults.addAll(atr.options.where((option) => defaultJSON.contains(option.name)).toList());
-          print("Defaults: -----\n" + defaults.toString());
         }
       return atr.copyWithDefaults(defaults);
     }

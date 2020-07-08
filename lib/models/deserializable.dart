@@ -17,21 +17,26 @@ class Deserialized {
 
 abstract class Pushable with ChangeNotifier {
   bool isPushing;
-  Map<String,dynamic> get json;
+  Map<String, dynamic> get json;
 
   Future<DocumentSnapshot> push(CollectionReference collection) async {
     isPushing = true;
     notifyListeners();
 
-    var toPush={"_isPushing" : true, "_isError":false, "_push" : json};
+    var toPush = {"_isPushing": true, "_isError": false, "_push": json};
 
-    var ref = await collection.add(toPush); 
+    var ref = await collection.add(toPush);
 
     print("Pushing " + this.toString() + " to " + collection.toString());
 
     DocumentSnapshot doc = await ref.get();
-    while(doc["_isPushing"] == true) {
-      doc = await ref.snapshots().first;
+
+    while (doc["_isPushing"] == true) {
+      print("re-awaiting");
+      print(doc.data);
+
+      await Future.delayed(const Duration(seconds: 1), () => "1");
+      doc = await ref.get();
     }
 
     print("Got " + doc.data.toString());

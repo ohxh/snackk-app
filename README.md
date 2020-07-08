@@ -1,8 +1,11 @@
-# breve
+# rebuilt
 
-Frontend flutter app for breve coffee order-ahead service.
+A new Flutter project.
 
-`flutter run --flavor dev`
-`flutter run --flavor prod`
+## Getting Started
 
-getbreve.com
+Running:
+flutter run --flavor {dev,prod}
+changes
+
+THIS is the authoritative breve repo as of July 2020

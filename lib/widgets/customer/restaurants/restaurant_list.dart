@@ -1,4 +1,3 @@
-
 import 'package:breve/models/restaurant.dart';
 import 'package:breve/services/database.dart';
 import 'package:breve/widgets/customer/restaurants/restaurant_search_bar.dart';
@@ -8,20 +7,20 @@ import 'package:flutter/material.dart';
 import 'restaurant_list_tile.dart';
 
 class RestaurantList extends StatelessWidget {
- 
   @override
   Widget build(BuildContext context) {
-    return Column( children: [
+    return Column(children: [
       RestaurantSearchBar(),
       QueryListBuilder(
           shrinkWrap: true,
-          query:  CustomerDatabase.instance.restaurantsRef,
-          builder: (context, doc) =>
-              RestaurantListTile(Restaurant.fromDocument(doc)))
-              
+          query: CustomerDatabase.instance.restaurantsRef,
+          builder: (context, doc) {
+            return RestaurantListTile(Restaurant.fromDocument(doc));
+          })
+      //
     ]);
   }
-  
+
 /*
   Widget carousel(BuildContext context) {
     if (_cafeList.length > 0) {

@@ -1,16 +1,16 @@
+import 'dart:async';
+
 import 'package:breve/services/database.dart';
 import 'package:breve/widgets/customer/credit_cards/credit_card_modal.dart';
-import 'package:breve/widgets/customer/menu/product/constrained_picker_tile.dart';
+import 'package:breve/widgets/customer/menu/product/select_tile.dart';
 import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
 import 'package:breve/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:breve/models/credit_card_preview.dart';
 
-
 class InlineCardPicker extends StatefulWidget {
   Function(String) onUpdated;
 
-  
   InlineCardPicker({this.onUpdated});
 
   @override
@@ -27,6 +27,15 @@ class _InlineCardPickerState extends State<InlineCardPicker> {
     });
   }
 
+  void willSetDefault(s) async {
+    Timer(new Duration(milliseconds: 50), () {
+      if (mounted) {
+        setState(() => selectedPaymentMethod = s);
+        widget.onUpdated(s?.id);
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,17 +48,20 @@ class _InlineCardPickerState extends State<InlineCardPicker> {
             q.documents.map((d) => CreditCardPreview.fromDocument(d)).toList()),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           List<CreditCardPreview> cards = snapshot.data;
-          print(cards);
+          if (cards?.length == 1 && !cards[0].isPushing)
+            willSetDefault(cards[0]);
           return ConstrainedPickerTile(
-            
-            SelectableGroup<CreditCardPreview>.singleChoice(name: "Credit card", options: cards, 
-            value: selectedPaymentMethod,
-
-            getOptionName: (CreditCardPreview c)=>c?.last4, isOptionLoading: (c)=>c?.isPushing, onSelectionUpdate: (l) => onUpdate(l)), 
-            addText: cards?.length == 0 ? "Add credit card  " : null,
-            onAdd: Routes.willPush(context, CreditCardModal()), bigTitle: true,
+            SelectableGroup<CreditCardPreview>.singleChoice(
+                name: "Credit card",
+                options: cards,
+                value: selectedPaymentMethod,
+                getOptionName: (CreditCardPreview c) => c?.last4,
+                isOptionLoading: (c) => c?.isPushing,
+                onSelectionUpdate: (l) => onUpdate(l)),
+            addText: cards?.length == 0 ? "Add card  " : null,
+            onAdd: Routes.willPush(context, CreditCardModal()),
+            bigTitle: true,
           );
-              
         });
   }
 }

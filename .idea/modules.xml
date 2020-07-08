@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/breve.iml" filepath="$PROJECT_DIR$/breve.iml" />
-      <module fileurl="file://$PROJECT_DIR$/breve_android.iml" filepath="$PROJECT_DIR$/breve_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rebuilt.iml" filepath="$PROJECT_DIR$/rebuilt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/rebuilt_android.iml" filepath="$PROJECT_DIR$/android/rebuilt_android.iml" />
     </modules>
   </component>
 </project>

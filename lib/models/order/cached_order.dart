@@ -13,7 +13,9 @@ class CachedOrder extends Deserialized with Order {
 
   DateTime timeSubmitted, timeDue;
 
-  OrderStatus status;
+  OrderStatus _status;
+  set status(OrderStatus s) {_status = s;}
+  OrderStatus get status => _status == OrderStatus.ready && timeDue.add(Duration(hours: 2)).isBefore(DateTime.now()) ? OrderStatus.fulfilled : _status;
   String refundReason;
 
   bool get isActive =>
@@ -30,7 +32,6 @@ class CachedOrder extends Deserialized with Order {
   }
 
   CachedOrder.fromDocument(DocumentSnapshot doc) : super.fromDocument(doc) {
-    print(doc.data);
     id = doc.documentID;
     restaurantId = doc["restaurant"]["id"];
     doc["cart"]?.forEach((o) => cart.add(CachedProduct.fromJSON(o)));

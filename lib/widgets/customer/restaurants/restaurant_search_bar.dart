@@ -29,7 +29,9 @@ class RestaurantSearchBar extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: Routes.willPush(context,  RestaurantSearchOverlay()))
+            onTap: () => Navigator.push(context, 
+            SlideUpRoute(page: 
+            RestaurantSearchOverlay())))
             
           );
   }

@@ -14,7 +14,6 @@ import 'package:breve/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-
 class ShopOrderCard extends StatefulWidget {
   final RestaurantOrder order;
   Key key;
@@ -34,9 +33,9 @@ class _ShopOrderCardState extends State<ShopOrderCard>
 
   Color backgroundColor() {
     if (timeLeft < 3)
-      return BreveColors.red;
+      return BreveColors.inProgress;
     else if (timeLeft < 11)
-      return BreveColors.blue;
+      return BreveColors.ready;
     else
       return BreveColors.darkGrey;
   }
@@ -80,95 +79,100 @@ class _ShopOrderCardState extends State<ShopOrderCard>
         child: Row(children: [
           Expanded(
             child: BreveCard(
-              
                 child: Column(children: [
-                  showCardHeader(),
-                  AnimatedSize(
-                    vsync: this,
-                    duration: Duration(milliseconds: 150),
-                    curve: Curves.fastOutSlowIn,
-                      child: Container(
-                        child: !expanded
-                            ? null
-                            : FadeTransition(
-                                opacity: AlwaysStoppedAnimation(1.0),
-                                child: showCardContent(context)),
-                      ),
-                  )
-                ])),
+              showCardHeader(),
+              AnimatedSize(
+                vsync: this,
+                duration: Duration(milliseconds: 150),
+                curve: Curves.fastOutSlowIn,
+                child: Container(
+                  child: !expanded
+                      ? null
+                      : FadeTransition(
+                          opacity: AlwaysStoppedAnimation(1.0),
+                          child: showCardContent(context)),
+                ),
+              )
+            ])),
           )
         ]));
   }
 
   Widget showCardHeader() {
     return GestureDetector(
-        child: Container(
-          margin: EdgeInsets.only(left: 16, right: 24, top: 16, bottom: 16),
-          color: BreveColors.white,
-          child: Row(
-            children: [
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Row(
-                  children: <Widget>[
-                    Text(
-                        widget.order.customerName == null
-                            ? "No name"
-                            : widget.order.customerName,
-                        textAlign: TextAlign.start,
-                        style: TextStyles.label),
-                    SizedBox(width: 16),
-                    Text(
-                        widget.order.cart.length.toString() +
-                            " item" +
-                            (widget.order.cart.length > 1 ? "s" : ""),
-                        softWrap: true,
-                        textAlign: TextAlign.start,
-                        style: TextStyles.paragraph),
-                  ],
-                ),
-                SizedBox(height: 8),
-                Row(children: [
-                  if (widget.order.status == OrderStatus.paid)
-                    Badge(
-                        text: timeLeft.toString() + " min.",
-                        color: backgroundColor()),
-                  if (widget.order.status != OrderStatus.paid)
-                    Badge(
-                        text: TimeUtils.absoluteStringOneLine(widget.order.timeDue),
-                        color: BreveColors.darkGrey),
-                  if (widget.order.status == OrderStatus.cancelled)
-                    OrderStatusIndicator(widget.order),
-                ])
-              ]),
-              Spacer(),
-              if (widget.order.status == OrderStatus.paid)
-                OrderOptionsMenu(widget.order),
-              IconButton(
+      child: Container(
+        margin: EdgeInsets.only(left: 16, right: 24, top: 16, bottom: 16),
+        color: BreveColors.white,
+        child: Row(
+          children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(
+                children: <Widget>[
+                  Text(
+                      widget.order.customerName == null
+                          ? "No name"
+                          : widget.order.customerName,
+                      textAlign: TextAlign.start,
+                      style: TextStyles.label),
+                  SizedBox(width: 16),
+                  Text(
+                      widget.order.quantity.toString() +
+                          " item" +
+                          (widget.order.quantity > 1 ? "s" : ""),
+                      softWrap: true,
+                      textAlign: TextAlign.start,
+                      style: TextStyles.paragraph),
+                ],
+              ),
+              SizedBox(height: 8),
+              Row(children: [
+                if (widget.order.status == OrderStatus.paid)
+                  Text(
+                    TimeUtils.absoluteString(widget.order.timeDue,
+                            newLine: false) +
+                        " (" +
+                        TimeUtils.relativeString(widget.order.timeDue) +
+                        ")",
+                  ),
+                if (widget.order.status != OrderStatus.paid)
+                  Text(
+                    TimeUtils.absoluteString(widget.order.timeDue,
+                        newLine: false),
+                  ),
+                if (widget.order.status == OrderStatus.cancelled)
+                  OrderStatusIndicator(widget.order),
+              ])
+            ]),
+            Spacer(),
+            if (widget.order.status == OrderStatus.paid)
+              OrderOptionsMenu(widget.order),
+            IconButton(
                 icon: Icon(expanded ? Icons.expand_less : Icons.expand_more,
                     color: BreveColors.black),
-                onPressed: () => setState(() {expanded = !expanded;})
-                
-              )
-            ],
-          ),
-    
+                onPressed: () => setState(() {
+                      expanded = !expanded;
+                    }))
+          ],
+        ),
       ),
-      onTap: () {setState(() {expanded = !expanded;});
+      onTap: () {
+        setState(() {
+          expanded = !expanded;
+        });
       },
     );
   }
 
   Widget showPaymentInfo() {
-    return 
-    
-    Column(children: [
-      CheckoutItem("Total", widget.order.price),
+    return Column(children: [
+      CheckoutItem("Subtotal", widget.order.subtotal),
       CheckoutItem("Tip", widget.order.tip),
       SizedBox(
         height: 16,
       ),
       if (widget.order.status == OrderStatus.paid)
         CustomButton(
+          isGradient: true,
           onPressed: widget.order.complete,
           style: ButtonStyles.filled,
           brightness: Brightness.light,
@@ -178,7 +182,10 @@ class _ShopOrderCardState extends State<ShopOrderCard>
       else
         Padding(
           padding: EdgeInsets.only(top: 16, bottom: 16),
-          child: Text(widget.order.status == OrderStatus.ready ? "Completed" : "Refunded"),
+          child: Text(widget.order.status == OrderStatus.ready ||
+                  widget.order.status == OrderStatus.fulfilled
+              ? "Completed"
+              : "Refunded"),
         ),
       SizedBox(
         height: 10,
@@ -217,49 +224,59 @@ class _ShopOrderCardState extends State<ShopOrderCard>
           )),
       if (narrowScreen) Divider(color: BreveColors.darkGrey),
       if (narrowScreen)
-        Padding(padding: EdgeInsets.only(left: 16, right: 16,), child:
-        Column(children: [
-          Container(
-              height: 34.0,
-              child: ListTile(
-                dense: false,
-                title: Text("Subtotal", style: TextStyles.label),
-                trailing: Text(NumberFormat.simpleCurrency().format(5000 / 100),
-                    style: TextStyles.paragraph),
-              )),
-          Container(
-              height: 34.0,
-              child: ListTile(
-                dense: false,
-                title: Text("Tip", style: TextStyles.label),
-                trailing: Text(NumberFormat.simpleCurrency().format(5000 / 100),
-                    style: TextStyles.paragraph),
-              )),
-          SizedBox(
-            height: 16,
-          ),
-          if (widget.order.status == OrderStatus.paid)
-            CustomButton(
-              onPressed: widget.order.complete,
-              style: ButtonStyles.filled,
-              brightness: Brightness.light,
-              title: "Mark complete ",
-              icon: Icons.check,
-            )
-          else if (widget.order.status == OrderStatus.ready)
-            Padding(
-              padding: EdgeInsets.only(top: 16, bottom: 16),
-              child: Text("Completed"),
-            )
-          else if (widget.order.status == OrderStatus.cancelled)
-            Padding(
-              padding: EdgeInsets.only(top: 16, bottom: 16),
-              child: Text("Refunded"),
+        Padding(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
             ),
-          SizedBox(
-            height: 10,
-          ),
-        ])
-        )]);
+            child: Column(children: [
+              Container(
+                  height: 34.0,
+                  child: ListTile(
+                    dense: false,
+                    title: Text("Subtotal", style: TextStyles.label),
+                    trailing: Text(
+                        NumberFormat.simpleCurrency()
+                            .format(widget.order.subtotal / 100),
+                        style: TextStyles.paragraph),
+                  )),
+              Container(
+                  height: 34.0,
+                  child: ListTile(
+                    dense: false,
+                    title: Text("Tip", style: TextStyles.label),
+                    trailing: Text(
+                        NumberFormat.simpleCurrency()
+                            .format(widget.order.tip / 100),
+                        style: TextStyles.paragraph),
+                  )),
+              SizedBox(
+                height: 16,
+              ),
+              if (widget.order.status == OrderStatus.paid)
+                CustomButton(
+                  isGradient: true,
+                  onPressed: widget.order.complete,
+                  style: ButtonStyles.filled,
+                  brightness: Brightness.light,
+                  title: "Mark complete ",
+                  icon: Icons.check,
+                )
+              else if (widget.order.status == OrderStatus.ready ||
+                  widget.order.status == OrderStatus.fulfilled)
+                Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 16),
+                  child: Text("Completed"),
+                )
+              else if (widget.order.status == OrderStatus.cancelled)
+                Padding(
+                  padding: EdgeInsets.only(top: 16, bottom: 16),
+                  child: Text("Refunded"),
+                ),
+              SizedBox(
+                height: 10,
+              ),
+            ]))
+    ]);
   }
 }

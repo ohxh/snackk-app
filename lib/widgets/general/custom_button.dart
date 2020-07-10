@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 
 enum ButtonStyles { filled, outline, text }
 

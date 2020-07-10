@@ -1,7 +1,7 @@
-import 'package:breve/models/menu/menu.dart';
-import 'package:breve/models/menu/product.dart';
-import 'package:breve/models/product/cached_product.dart';
-import 'package:breve/models/product/specific_attribute.dart';
+import 'package:snackk/models/menu/menu.dart';
+import 'package:snackk/models/menu/product.dart';
+import 'package:snackk/models/product/cached_product.dart';
+import 'package:snackk/models/product/specific_attribute.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 

@@ -1,7 +1,7 @@
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/services/database.dart';
-import 'package:breve/widgets/customer/restaurants/restaurant_search_bar.dart';
-import 'package:breve/widgets/general/streamed_list_builder.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/widgets/customer/restaurants/restaurant_search_bar.dart';
+import 'package:snackk/widgets/general/streamed_list_builder.dart';
 import 'package:flutter/material.dart';
 
 import 'restaurant_list_tile.dart';

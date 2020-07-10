@@ -1,5 +1,5 @@
-import 'package:breve/services/global_data.dart';
-import 'package:breve/widgets/general/breve_scaffold.dart';
+import 'package:snackk/services/global_data.dart';
+import 'package:snackk/widgets/general/breve_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class SupportPage extends StatelessWidget {

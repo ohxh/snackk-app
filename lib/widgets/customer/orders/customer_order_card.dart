@@ -1,17 +1,17 @@
-import 'package:breve/models/menu/menu.dart';
-import 'package:breve/models/order/cached_order.dart';
-import 'package:breve/models/order/customer_order.dart';
-import 'package:breve/models/order/editable_order.dart';
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/widgets/customer/menu/checkout/checkout_page.dart';
-import 'package:breve/widgets/general/breve_card.dart';
-import 'package:breve/widgets/general/custom_button.dart';
-import 'package:breve/widgets/general/product_list.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/models/menu/menu.dart';
+import 'package:snackk/models/order/cached_order.dart';
+import 'package:snackk/models/order/customer_order.dart';
+import 'package:snackk/models/order/editable_order.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/widgets/customer/menu/checkout/checkout_page.dart';
+import 'package:snackk/widgets/general/breve_card.dart';
+import 'package:snackk/widgets/general/custom_button.dart';
+import 'package:snackk/widgets/general/product_list.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 import 'order_status_indicator.dart';
 
 class CustomerOrderCard extends StatefulWidget {

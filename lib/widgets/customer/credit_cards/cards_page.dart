@@ -1,13 +1,13 @@
-import 'package:breve/services/authentication.dart';
-import 'package:breve/services/database.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/credit_cards/credit_card_list_tile.dart';
-import 'package:breve/widgets/general/breve_scaffold.dart';
-import 'package:breve/widgets/general/streamed_list_builder.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/services/authentication.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/credit_cards/credit_card_list_tile.dart';
+import 'package:snackk/widgets/general/breve_scaffold.dart';
+import 'package:snackk/widgets/general/streamed_list_builder.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:breve/models/credit_card_preview.dart';
+import 'package:snackk/models/credit_card_preview.dart';
 
 import 'credit_card_modal.dart';
 

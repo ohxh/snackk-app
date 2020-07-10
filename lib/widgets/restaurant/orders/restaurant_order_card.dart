@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:breve/models/order/cached_order.dart';
-import 'package:breve/models/order/restaurant_order.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/menu/checkout/line_item.dart';
-import 'package:breve/widgets/customer/orders/order_status_indicator.dart';
-import 'package:breve/widgets/general/badge.dart';
-import 'package:breve/widgets/general/breve_card.dart';
-import 'package:breve/widgets/general/custom_button.dart';
-import 'package:breve/widgets/general/product_list.dart';
-import 'package:breve/widgets/restaurant/orders/shop_order_options_menu.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/models/order/cached_order.dart';
+import 'package:snackk/models/order/restaurant_order.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/menu/checkout/line_item.dart';
+import 'package:snackk/widgets/customer/orders/order_status_indicator.dart';
+import 'package:snackk/widgets/general/badge.dart';
+import 'package:snackk/widgets/general/breve_card.dart';
+import 'package:snackk/widgets/general/custom_button.dart';
+import 'package:snackk/widgets/general/product_list.dart';
+import 'package:snackk/widgets/restaurant/orders/shop_order_options_menu.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

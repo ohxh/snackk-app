@@ -1,8 +1,8 @@
-import 'package:breve/services/authentication.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/general/support_page.dart';
-import 'package:breve/widgets/legal/legal_page.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/services/authentication.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/general/support_page.dart';
+import 'package:snackk/widgets/legal/legal_page.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
 class DrawerItem extends StatelessWidget {

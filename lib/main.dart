@@ -1,7 +1,7 @@
-import 'package:breve/services/notifications.dart';
-import 'package:breve/widgets/login/root_page.dart';
+import 'package:snackk/services/notifications.dart';
+import 'package:snackk/widgets/login/root_page.dart';
 import 'package:flutter/material.dart';
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 import 'package:flutter/services.dart';
 
 void main() {

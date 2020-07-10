@@ -1,4 +1,4 @@
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class LargeBreveCardGradient extends StatelessWidget {

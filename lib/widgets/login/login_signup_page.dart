@@ -1,9 +1,9 @@
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/general/custom_button.dart';
-import 'package:breve/widgets/general/inline_error.dart';
-import 'package:breve/widgets/login/login_scaffold.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/general/custom_button.dart';
+import 'package:snackk/widgets/general/inline_error.dart';
+import 'package:snackk/widgets/login/login_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:breve/services/authentication.dart';
+import 'package:snackk/services/authentication.dart';
 
 class LoginSignupPage extends StatefulWidget {
   @override

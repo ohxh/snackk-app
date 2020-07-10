@@ -1,6 +1,6 @@
-import 'package:breve/models/deserializable.dart';
-import 'package:breve/models/schedule/schedule.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/models/deserializable.dart';
+import 'package:snackk/models/schedule/schedule.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

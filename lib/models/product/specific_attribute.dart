@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:breve/models/menu/attribute.dart';
-import 'package:breve/models/menu/may_segment_on_size.dart';
-import 'package:breve/models/menu/option.dart';
-import 'package:breve/models/product/specific_product.dart';
-import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/models/menu/attribute.dart';
+import 'package:snackk/models/menu/may_segment_on_size.dart';
+import 'package:snackk/models/menu/option.dart';
+import 'package:snackk/models/product/specific_product.dart';
+import 'package:snackk/widgets/customer/menu/product/selectable_group.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:collection/collection.dart';
 
 class SpecificAttribute extends SelectableGroup<Option> {

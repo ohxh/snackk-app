@@ -1,5 +1,5 @@
-import 'package:breve/models/product/specific_product.dart';
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/models/product/specific_product.dart';
+import 'package:snackk/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

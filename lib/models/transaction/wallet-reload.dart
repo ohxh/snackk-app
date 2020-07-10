@@ -1,8 +1,7 @@
-import 'package:breve/models/deserializable.dart';
-import 'package:breve/services/authentication.dart';
+import 'package:snackk/models/deserializable.dart';
+import 'package:snackk/services/authentication.dart';
 
 class WalletReload extends Pushable {
-
   String _source;
   String get source => _source;
 
@@ -22,11 +21,11 @@ class WalletReload extends Pushable {
 
   WalletReload();
 
-  Map<String,dynamic> get json => {
-    "source": _source,
-    "amount": _amount,
-    "userId": (Auth.user as Customer).uid,
-    "destination": "wallet",
-    "type": "reload"
-  };
+  Map<String, dynamic> get json => {
+        "source": _source,
+        "amount": _amount,
+        "userId": (Auth.user as Customer).uid,
+        "destination": "wallet",
+        "type": "reload"
+      };
 }

@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:breve/models/deserializable.dart';
-import 'package:breve/models/menu/menu.dart';
-import 'package:breve/models/order/cached_order.dart';
-import 'package:breve/models/order/customer_order.dart';
-import 'package:breve/models/product/specific_product.dart';
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/services/authentication.dart';
-import 'package:breve/services/database.dart';
-import 'package:breve/services/global_data.dart';
+import 'package:snackk/models/deserializable.dart';
+import 'package:snackk/models/menu/menu.dart';
+import 'package:snackk/models/order/cached_order.dart';
+import 'package:snackk/models/order/customer_order.dart';
+import 'package:snackk/models/product/specific_product.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/services/authentication.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/services/global_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'order.dart';
 

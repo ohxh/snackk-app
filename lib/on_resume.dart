@@ -1,6 +1,6 @@
-import 'package:breve/widgets/customer/menu/checkout/checkout_page.dart';
-import 'package:breve/widgets/general/waiting_screen.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/widgets/customer/menu/checkout/checkout_page.dart';
+import 'package:snackk/widgets/general/waiting_screen.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
 import 'models/order/editable_order.dart';
@@ -15,8 +15,6 @@ class OnResume extends StatefulWidget {
 }
 
 class _OnResumeState extends State<OnResume> {
- 
-
   @override
   void initState() {
     super.initState();
@@ -24,11 +22,12 @@ class _OnResumeState extends State<OnResume> {
   }
 
   void go() async {
-    try { 
-    var order = await EditableOrder.fromBlob(widget.json["data"]["order"]);
-    Routes.push(context,  CheckoutPage(order));
+    try {
+      var order = await EditableOrder.fromBlob(widget.json["data"]["order"]);
+      Routes.push(context, CheckoutPage(order));
+    } catch (e) {
+      Navigator.pop(context);
     }
-    catch(e) {Navigator.pop(context);}
   }
 
   @override

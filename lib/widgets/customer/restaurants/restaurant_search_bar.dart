@@ -1,14 +1,14 @@
-import 'package:breve/effects/slide_up_transition.dart';
-import 'package:breve/widgets/customer/restaurants/restaurant_search_overlay.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/effects/slide_up_transition.dart';
+import 'package:snackk/widgets/customer/restaurants/restaurant_search_overlay.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantSearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-          padding: EdgeInsets.only(left: 16, right: 16, top: 0),
-          child: GestureDetector(
+        padding: EdgeInsets.only(left: 16, right: 16, top: 0),
+        child: GestureDetector(
             child: Container(
               color: Colors.white,
               child: Hero(
@@ -29,10 +29,7 @@ class RestaurantSearchBar extends StatelessWidget {
                 ),
               ),
             ),
-            onTap: () => Navigator.push(context, 
-            SlideUpRoute(page: 
-            RestaurantSearchOverlay())))
-            
-          );
+            onTap: () => Navigator.push(
+                context, SlideUpRoute(page: RestaurantSearchOverlay()))));
   }
 }

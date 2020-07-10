@@ -1,8 +1,8 @@
-import 'package:breve/models/order/customer_order.dart';
-import 'package:breve/services/database.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/orders/customer_order_card.dart';
-import 'package:breve/widgets/general/streamed_list_builder.dart';
+import 'package:snackk/models/order/customer_order.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/orders/customer_order_card.dart';
+import 'package:snackk/widgets/general/streamed_list_builder.dart';
 import 'package:flutter/material.dart';
 
 class CustomerOrderList extends StatelessWidget {

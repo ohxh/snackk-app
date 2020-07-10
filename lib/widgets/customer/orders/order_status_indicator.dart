@@ -1,7 +1,7 @@
-import 'package:breve/models/order/cached_order.dart';
+import 'package:snackk/models/order/cached_order.dart';
 import 'package:flutter/material.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 
 class OrderStatusIndicator extends StatefulWidget {
   CachedOrder order;

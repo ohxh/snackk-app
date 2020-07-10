@@ -1,5 +1,4 @@
-
-import 'package:breve/models/product/displayable_as_product.dart';
+import 'package:snackk/models/product/displayable_as_product.dart';
 
 abstract class Order {
   List<DisplayableAsProduct> cart;

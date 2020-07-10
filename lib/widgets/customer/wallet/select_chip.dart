@@ -1,5 +1,5 @@
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/general/mini_loading_indicator.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/general/mini_loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 class SelectChip extends StatelessWidget {

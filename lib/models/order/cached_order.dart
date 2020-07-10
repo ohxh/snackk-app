@@ -1,6 +1,6 @@
-import 'package:breve/models/deserializable.dart';
-import 'package:breve/models/order/order.dart';
-import 'package:breve/models/product/cached_product.dart';
+import 'package:snackk/models/deserializable.dart';
+import 'package:snackk/models/order/order.dart';
+import 'package:snackk/models/product/cached_product.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum OrderStatus { paid, cancelled, ready, fulfilled }
@@ -14,8 +14,14 @@ class CachedOrder extends Deserialized with Order {
   DateTime timeSubmitted, timeDue;
 
   OrderStatus _status;
-  set status(OrderStatus s) {_status = s;}
-  OrderStatus get status => _status == OrderStatus.ready && timeDue.add(Duration(hours: 2)).isBefore(DateTime.now()) ? OrderStatus.fulfilled : _status;
+  set status(OrderStatus s) {
+    _status = s;
+  }
+
+  OrderStatus get status => _status == OrderStatus.ready &&
+          timeDue.add(Duration(hours: 2)).isBefore(DateTime.now())
+      ? OrderStatus.fulfilled
+      : _status;
   String refundReason;
 
   bool get isActive =>

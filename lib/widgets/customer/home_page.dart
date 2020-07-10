@@ -1,10 +1,10 @@
-import 'package:breve/services/notifications.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/customer_drawer.dart';
-import 'package:breve/widgets/customer/restaurants/restaurant_list.dart';
-import 'package:breve/widgets/customer/wallet/transactions_list.dart';
-import 'package:breve/widgets/customer/wallet/wallet.dart';
-import 'package:breve/widgets/general/breve_scaffold.dart';
+import 'package:snackk/services/notifications.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/customer_drawer.dart';
+import 'package:snackk/widgets/customer/restaurants/restaurant_list.dart';
+import 'package:snackk/widgets/customer/wallet/transactions_list.dart';
+import 'package:snackk/widgets/customer/wallet/wallet.dart';
+import 'package:snackk/widgets/general/breve_scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';

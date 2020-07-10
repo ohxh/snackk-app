@@ -1,7 +1,7 @@
-name: breve
+name: snackk
 description: Order ahead. Skip the line.
-version: 0.0.4+4
-homepage: http://getbreve.com
+version: 1.1.0+5
+homepage: https://snackk.app
 
 dependencies:
   flutter:
@@ -26,7 +26,7 @@ dependencies:
 flutter_icons:
   android: true 
   ios: true
-  image_path: "assets/icons/icon_1024.png"
+  image_path: "assets/icons/snackk_icon_512.png"
 
 dev_dependencies:
   flutter_launcher_icons: "^0.7.3"

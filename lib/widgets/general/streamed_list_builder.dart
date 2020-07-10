@@ -1,5 +1,5 @@
-import 'package:breve/models/deserializable.dart';
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/models/deserializable.dart';
+import 'package:snackk/theme/theme.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 

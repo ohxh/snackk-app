@@ -1,7 +1,7 @@
-import 'package:breve/models/order/customer_order.dart';
-import 'package:breve/services/database.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/general/badge.dart';
+import 'package:snackk/models/order/customer_order.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/general/badge.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 

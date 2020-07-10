@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 
 class Badge extends StatelessWidget {
-
   final String text;
   final Color color;
   final Color textColor;
@@ -18,7 +17,6 @@ class Badge extends StatelessWidget {
             color: color, borderRadius: BorderRadius.circular(12)),
         alignment: Alignment.center,
         padding: EdgeInsets.only(left: 8, right: 8),
-        child: Text(text,
-            style: TextStyles.badge.apply(color: textColor)));
+        child: Text(text, style: TextStyles.badge.apply(color: textColor)));
   }
 }

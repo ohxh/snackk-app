@@ -1,5 +1,5 @@
-import 'package:breve/models/menu/menu.dart';
-import 'package:breve/models/restaurant.dart';
+import 'package:snackk/models/menu/menu.dart';
+import 'package:snackk/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart' as rtdb;
 import 'package:firestore_helpers/firestore_helpers.dart';

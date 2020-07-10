@@ -1,9 +1,9 @@
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/widgets/customer/menu/restaurant_page.dart';
-import 'package:breve/widgets/general/breve_list_tile.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/widgets/customer/menu/restaurant_page.dart';
+import 'package:snackk/widgets/general/breve_list_tile.dart';
 import 'package:flutter/material.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils.dart';

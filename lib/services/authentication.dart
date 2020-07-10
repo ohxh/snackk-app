@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:breve/models/restaurant.dart';
+import 'package:snackk/models/restaurant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

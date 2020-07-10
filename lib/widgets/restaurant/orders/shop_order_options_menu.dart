@@ -1,9 +1,9 @@
-import 'package:breve/models/order/order.dart';
-import 'package:breve/models/order/restaurant_order.dart';
-import 'package:breve/widgets/general/custom_button.dart';
+import 'package:snackk/models/order/order.dart';
+import 'package:snackk/models/order/restaurant_order.dart';
+import 'package:snackk/widgets/general/custom_button.dart';
 import 'package:flutter/material.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 
 class OrderOptionsMenu extends StatefulWidget {
   RestaurantOrder order;

@@ -1,10 +1,10 @@
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/menu/product/attribute_page.dart';
-import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
-import 'package:breve/widgets/customer/wallet/select_chip.dart';
-import 'package:breve/widgets/general/breve_list_tile.dart';
-import 'package:breve/widgets/general/inline_error.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/menu/product/attribute_page.dart';
+import 'package:snackk/widgets/customer/menu/product/selectable_group.dart';
+import 'package:snackk/widgets/customer/wallet/select_chip.dart';
+import 'package:snackk/widgets/general/breve_list_tile.dart';
+import 'package:snackk/widgets/general/inline_error.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/material.dart';
 
 class ConstrainedPickerTile<T> extends StatefulWidget {

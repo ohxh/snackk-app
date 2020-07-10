@@ -1,9 +1,9 @@
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 
 class TimePickerModal extends StatefulWidget {
   RestaurantSchedule restaurantSchedule;

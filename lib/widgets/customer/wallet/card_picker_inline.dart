@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:breve/services/database.dart';
-import 'package:breve/widgets/customer/credit_cards/credit_card_modal.dart';
-import 'package:breve/widgets/customer/menu/product/select_tile.dart';
-import 'package:breve/widgets/customer/menu/product/selectable_group.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/widgets/customer/credit_cards/credit_card_modal.dart';
+import 'package:snackk/widgets/customer/menu/product/select_tile.dart';
+import 'package:snackk/widgets/customer/menu/product/selectable_group.dart';
+import 'package:snackk/widgets/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:breve/models/credit_card_preview.dart';
+import 'package:snackk/models/credit_card_preview.dart';
 
 class InlineCardPicker extends StatefulWidget {
   Function(String) onUpdated;

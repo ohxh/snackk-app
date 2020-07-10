@@ -1,6 +1,6 @@
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/menu/checkout/order_time_picker_modal.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/menu/checkout/order_time_picker_modal.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,9 +8,7 @@ import 'package:intl/intl.dart';
 class ShopHoursPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child:Text("OoOps!")
-    );
+    return Container(child: Text("OoOps!"));
   }
 }
 

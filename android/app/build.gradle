@@ -76,11 +76,11 @@ android {
     productFlavors {
         dev {
             dimension "app"
-            resValue "string", "app_name", "brevé (dev)"
+            resValue "string", "app_name", "Snackk (dev)"
         }
         prod {
             dimension "app"
-            resValue "string", "app_name", "brevé"
+            resValue "string", "app_name", "Snackk"
         }
     }
 }

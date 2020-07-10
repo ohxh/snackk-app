@@ -1,9 +1,9 @@
-import 'package:breve/services/authentication.dart';
-import 'package:breve/services/database.dart';
-import 'package:breve/theme/theme.dart';
-import 'package:breve/widgets/customer/credit_cards/credit_card_form.dart';
-import 'package:breve/widgets/customer/wallet/breve_credit_card.dart';
-import 'package:breve/widgets/general/custom_button.dart';
+import 'package:snackk/services/authentication.dart';
+import 'package:snackk/services/database.dart';
+import 'package:snackk/theme/theme.dart';
+import 'package:snackk/widgets/customer/credit_cards/credit_card_form.dart';
+import 'package:snackk/widgets/customer/wallet/breve_credit_card.dart';
+import 'package:snackk/widgets/general/custom_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';

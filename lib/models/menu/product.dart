@@ -1,6 +1,6 @@
 import 'dart:collection';
-import 'package:breve/models/schedule/schedule.dart';
-import 'package:breve/widgets/utils.dart';
+import 'package:snackk/models/schedule/schedule.dart';
+import 'package:snackk/widgets/utils.dart';
 
 import 'attribute.dart';
 import 'may_segment_on_size.dart';

@@ -1,5 +1,5 @@
-import 'package:breve/models/credit_card_preview.dart';
-import 'package:breve/widgets/general/mini_loading_indicator.dart';
+import 'package:snackk/models/credit_card_preview.dart';
+import 'package:snackk/widgets/general/mini_loading_indicator.dart';
 import 'package:flutter/material.dart';
 
 class CreditCardListTile extends StatelessWidget {

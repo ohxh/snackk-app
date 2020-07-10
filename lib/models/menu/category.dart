@@ -1,4 +1,4 @@
-import 'package:breve/models/schedule/schedule.dart';
+import 'package:snackk/models/schedule/schedule.dart';
 
 import 'attribute.dart';
 import 'product.dart';

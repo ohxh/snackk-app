@@ -1,11 +1,11 @@
-import 'package:breve/services/authentication.dart';
-import 'package:breve/widgets/general/breve_scaffold.dart';
-import 'package:breve/widgets/general/listenable_rebuilder.dart';
-import 'package:breve/widgets/restaurant/settings/shop_hours_picker.dart';
+import 'package:snackk/services/authentication.dart';
+import 'package:snackk/widgets/general/breve_scaffold.dart';
+import 'package:snackk/widgets/general/listenable_rebuilder.dart';
+import 'package:snackk/widgets/restaurant/settings/shop_hours_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:breve/theme/theme.dart';
+import 'package:snackk/theme/theme.dart';
 
 class ShopSettingsPage extends StatefulWidget {
   @override

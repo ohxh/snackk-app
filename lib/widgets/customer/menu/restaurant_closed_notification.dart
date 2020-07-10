@@ -1,5 +1,5 @@
-import 'package:breve/models/restaurant.dart';
-import 'package:breve/widgets/general/breve_card.dart';
+import 'package:snackk/models/restaurant.dart';
+import 'package:snackk/widgets/general/breve_card.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantClosedNotification extends StatelessWidget {
